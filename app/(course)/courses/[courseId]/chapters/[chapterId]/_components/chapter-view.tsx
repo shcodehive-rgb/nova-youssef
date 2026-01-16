@@ -228,11 +228,24 @@ export const ChapterView = ({
                                                 </div>
                                             </button>
                                         </DialogTrigger>
-                                        <DialogContent className="max-w-4xl w-full h-[80vh]">
-                                            <DialogHeader>
-                                                <DialogTitle>{file.name}</DialogTitle>
-                                            </DialogHeader>
-                                            <div className="flex-1 w-full h-full bg-slate-100 rounded-md overflow-hidden relative">
+                                        <DialogContent className="max-w-[95vw] h-[95vh] w-full max-h-screen p-0 bg-slate-900 border-slate-800">
+                                            {/* Pro Header */}
+                                            <div className="h-14 bg-black/50 flex items-center justify-between px-4 border-b border-slate-700">
+                                                <div className="flex items-center gap-x-2">
+                                                    <File className="h-5 w-5 text-sky-400" />
+                                                    <span className="text-white font-medium truncate max-w-[calc(100vw-100px)]">
+                                                        {file.name}
+                                                    </span>
+                                                </div>
+                                                <DialogTrigger asChild>
+                                                    <button className="text-slate-400 hover:text-white transition">
+                                                        <span className="sr-only">Close</span>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+                                                    </button>
+                                                </DialogTrigger>
+                                            </div>
+
+                                            <div className="flex-1 w-full h-[calc(95vh-3.5rem)] bg-slate-800 overflow-hidden relative rounded-b-lg">
                                                 {/* Simple extension check */}
                                                 {(file.url.endsWith(".png") || file.url.endsWith(".jpg") || file.url.endsWith(".jpeg") || file.url.endsWith(".webp")) ? (
                                                     <div className="w-full h-full flex items-center justify-center relative select-none" onContextMenu={(e) => e.preventDefault()}>
@@ -246,10 +259,12 @@ export const ChapterView = ({
                                                         </div>
                                                     </div>
                                                 ) : (
-                                                    // For PDF, we use iframe. Adding #toolbar=0 helps hide controls in some browsers.
+                                                    // For PDF, we use iframe with Google Drive style params.
                                                     <iframe
-                                                        src={`${file.url}#toolbar=0`}
-                                                        className="w-full h-full"
+                                                        src={`${file.url}#toolbar=0&navpanes=0&scrollbar=1`}
+                                                        width="100%"
+                                                        height="100%"
+                                                        className="w-full h-full rounded-b-lg"
                                                         onContextMenu={(e) => e.preventDefault()}
                                                     />
                                                 )}
