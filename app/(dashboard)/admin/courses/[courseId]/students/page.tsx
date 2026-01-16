@@ -4,8 +4,6 @@ import { redirect } from "next/navigation";
 import { IconBadge } from "@/components/icon-badge";
 import { Users } from "lucide-react";
 import { AccessForm } from "../_components/access-form";
-import { columns } from "./_components/columns"; // We will mock this inline or just render table directly for now as simple
-import { DataTable } from "./_components/data-table"; // Or just use a simple table for now to save complexity
 import { StudentClient } from "./_components/student-client"; // Actually let's just do it all in page or a dedicated client component
 
 const StudentsPage = async ({
