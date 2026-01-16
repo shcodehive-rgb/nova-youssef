@@ -52,6 +52,8 @@ model Chapter {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  comments Comment[]
+
   @@index([courseId])
 }
 
@@ -131,4 +133,15 @@ model CourseWhitelist {
   course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   @@unique([email, courseId]) // Prevent duplicate entries
+}
+
+model Comment {
+  id String @id @default(uuid())
+  text String @db.Text
+  userId String
+  chapterId String
+  chapter Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([chapterId])
 }

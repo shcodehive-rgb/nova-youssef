@@ -18,6 +18,7 @@ export async function PATCH(
         const ownCourse = await db.course.findUnique({
             where: {
                 id: courseId,
+                userId: userId,
             }
         });
 
@@ -59,6 +60,7 @@ export async function DELETE(
         const ownCourse = await db.course.findUnique({
             where: {
                 id: courseId,
+                userId: userId,
             }
         });
 

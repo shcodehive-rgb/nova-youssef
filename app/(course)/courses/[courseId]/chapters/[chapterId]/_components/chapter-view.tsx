@@ -20,6 +20,7 @@ import { Separator } from "@/components/ui/separator";
 import { Preview } from "@/components/preview";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { CommentSection } from "@/components/comment-section";
 
 interface ChapterViewProps {
     chapter: Chapter;
@@ -220,13 +221,11 @@ export const ChapterView = ({
 
                 {/* TAB C: Discussion */}
                 {activeTab === "discuss" && (
-                    <div className="flex flex-col items-center justify-center py-12 bg-slate-50 dark:bg-zinc-900/50 rounded-lg">
-                        <MessageSquare className="h-12 w-12 text-slate-300 mb-4" />
-                        <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300">Discussion Forum</h3>
-                        <p className="text-slate-500 text-sm mb-4">Questions and Answers for this lesson.</p>
-                        <Button variant="outline" disabled>
-                            Coming Soon
-                        </Button>
+                    <div className="px-4 py-6">
+                        <CommentSection
+                            courseId={course.id}
+                            chapterId={chapter.id}
+                        />
                     </div>
                 )}
 

@@ -33,7 +33,8 @@ export const ourFileRouter = {
         .onUploadComplete(() => {
             console.log("[UPLOADTHING] Upload complete for chapterImage");
         }),
-    chapterVideo: f({ video: { maxFileCount: 1, maxFileSize: "512MB" } })
+    // 👇👇👇 HNA FIN BADALNA (rddinaha 4GB) 👇👇👇
+    chapterVideo: f({ video: { maxFileCount: 1, maxFileSize: "4GB" } })
         .middleware(async () => {
             console.log("[UPLOADTHING] Middleware running for chapterVideo");
             return await handleAuth();
@@ -41,6 +42,7 @@ export const ourFileRouter = {
         .onUploadComplete(() => {
             console.log("[UPLOADTHING] Upload complete for chapterVideo");
         }),
+    // 👆👆👆 Safi hadchi li kander
     chapterAttachment: f(["pdf", "text", "image"])
         .middleware(async () => {
             console.log("[UPLOADTHING] Middleware running for chapterAttachment");
