@@ -103,6 +103,8 @@ model Attachment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  isDownloadable Boolean @default(false)
+
   @@index([courseId])
   @@index([chapterId])
 }

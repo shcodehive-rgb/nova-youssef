@@ -11,7 +11,8 @@ import {
     File,
     ChevronRight,
     ArrowLeft,
-    ArrowRight
+    ArrowRight,
+    Eye
 } from "lucide-react";
 
 import { VideoPlayer } from "@/components/video-player";
@@ -21,6 +22,13 @@ import { Preview } from "@/components/preview";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { CommentSection } from "@/components/comment-section";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
 
 interface ChapterViewProps {
     chapter: Chapter;
@@ -48,7 +56,7 @@ export const ChapterView = ({
     const isLocked = !chapter.isFree && !purchase;
 
     return (
-        <div className="flex flex-col max-w-4xl mx-auto pb-20">
+        <div className="flex flex-col w-full mx-auto pb-20">
             {/* 1. Video Player Section (Full Width) */}
             <div className="p-4">
                 {/* {userProgress?.isCompleted && (
@@ -195,16 +203,61 @@ export const ChapterView = ({
                             <p className="text-sm text-slate-500 italic">Aucune ressource pour ce chapitre.</p>
                         )}
                         {attachments.map((file) => (
-                            <a
-                                href={file.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                key={file.id}
-                                className="flex items-center p-3 w-full bg-sky-50 border border-sky-200 text-sky-700 rounded-md hover:bg-sky-100 transition mb-2"
-                            >
-                                <File className="h-4 w-4 mr-2 flex-shrink-0" />
-                                <span className="text-sm line-clamp-1">{file.name}</span>
-                            </a>
+                            <div key={file.id}>
+                                {/* @ts-ignore */}
+                                {file.isDownloadable ? (
+                                    <a
+                                        href={file.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center p-3 w-full bg-sky-50 border border-sky-200 text-sky-700 rounded-md hover:bg-sky-100 transition mb-2"
+                                    >
+                                        <File className="h-4 w-4 mr-2 flex-shrink-0" />
+                                        <span className="text-sm line-clamp-1">{file.name}</span>
+                                        <Download className="h-4 w-4 ml-auto" />
+                                    </a>
+                                ) : (
+                                    <Dialog>
+                                        <DialogTrigger asChild>
+                                            <button className="flex items-center p-3 w-full bg-slate-50 border border-slate-200 text-slate-700 rounded-md hover:bg-slate-100 transition mb-2">
+                                                <File className="h-4 w-4 mr-2 flex-shrink-0" />
+                                                <span className="text-sm line-clamp-1 text-left">{file.name}</span>
+                                                <div className="flex items-center ml-auto gap-x-1 text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full border border-amber-200">
+                                                    <Eye className="h-3 w-3" />
+                                                    View Only
+                                                </div>
+                                            </button>
+                                        </DialogTrigger>
+                                        <DialogContent className="max-w-4xl w-full h-[80vh]">
+                                            <DialogHeader>
+                                                <DialogTitle>{file.name}</DialogTitle>
+                                            </DialogHeader>
+                                            <div className="flex-1 w-full h-full bg-slate-100 rounded-md overflow-hidden relative">
+                                                {/* Simple extension check */}
+                                                {(file.url.endsWith(".png") || file.url.endsWith(".jpg") || file.url.endsWith(".jpeg") || file.url.endsWith(".webp")) ? (
+                                                    <div className="w-full h-full flex items-center justify-center relative select-none" onContextMenu={(e) => e.preventDefault()}>
+                                                        <div className="relative w-full h-full pointer-events-none">
+                                                            <Image
+                                                                src={file.url}
+                                                                alt={file.name}
+                                                                fill
+                                                                className="object-contain"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    // For PDF, we use iframe. Adding #toolbar=0 helps hide controls in some browsers.
+                                                    <iframe
+                                                        src={`${file.url}#toolbar=0`}
+                                                        className="w-full h-full"
+                                                        onContextMenu={(e) => e.preventDefault()}
+                                                    />
+                                                )}
+                                            </div>
+                                        </DialogContent>
+                                    </Dialog>
+                                )}
+                            </div>
                         ))}
                     </div>
                 )}

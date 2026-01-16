@@ -46,12 +46,35 @@ export async function PATCH(
 ) {
     try {
         const { userId } = await auth();
-        // Since schema update for canDownload wasn't strictly requested/verified and might break things if I assumed it exists without migration check, 
-        // I'll implement a basic check or just return success if logic isn't critical yet, OR better, check if 'canDownload' is in the request and log it.
-        // Actually, for now, let's keep it simple. If the user wants download toggle, we need schema change. 
-        // I'll implement a stub or just 200 OK to avoid crashing frontend if it tries to toggle.
+        const { courseId, attachmentId } = await params;
+        const values = await req.json();
 
-        return new NextResponse("Feature pending schema update", { status: 200 });
+        if (!userId) {
+            return new NextResponse("Unauthorized", { status: 401 });
+        }
+
+        const courseOwner = await db.course.findUnique({
+            where: {
+                id: courseId,
+                userId: userId,
+            }
+        });
+
+        if (!courseOwner) {
+            return new NextResponse("Unauthorized", { status: 401 });
+        }
+
+        const attachment = await db.attachment.update({
+            where: {
+                courseId: courseId,
+                id: attachmentId,
+            },
+            data: {
+                ...values,
+            }
+        });
+
+        return NextResponse.json(attachment);
 
     } catch (error) {
         console.log("ATTACHMENT_ID", error);
