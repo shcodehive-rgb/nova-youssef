@@ -51,12 +51,12 @@ export const ChapterView = ({
         <div className="flex flex-col max-w-4xl mx-auto pb-20">
             {/* 1. Video Player Section (Full Width) */}
             <div className="p-4">
-                {userProgress?.isCompleted && (
+                {/* {userProgress?.isCompleted && (
                     <Banner
                         variant="success"
                         label="You already completed this chapter."
                     />
-                )}
+                )} */}
                 {isLocked && (
                     <Banner
                         variant="warning"
@@ -191,29 +191,21 @@ export const ChapterView = ({
                             <p className="text-xs text-muted-foreground">{attachments.length} fichiers</p>
                         </div>
 
-                        {attachments.length === 0 ? (
-                            <div className="text-center py-10 text-gray-500 text-sm">
-                                Aucun document disponible pour ce chapitre.
-                            </div>
-                        ) : (
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
-                                {attachments.map((file) => (
-                                    <div key={file.id} className="relative aspect-square cursor-pointer overflow-hidden rounded-md border hover:opacity-75 group bg-slate-100 dark:bg-slate-800">
-                                        <a
-                                            href={file.url}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="relative w-full h-full flex items-center justify-center flex-col gap-2 p-2"
-                                        >
-                                            <File className="h-10 w-10 text-slate-400 group-hover:text-slate-500 transition" />
-                                            <p className="text-xs text-slate-500 truncate w-full text-center px-1">
-                                                {file.name}
-                                            </p>
-                                        </a>
-                                    </div>
-                                ))}
-                            </div>
+                        {attachments.length === 0 && (
+                            <p className="text-sm text-slate-500 italic">Aucune ressource pour ce chapitre.</p>
                         )}
+                        {attachments.map((file) => (
+                            <a
+                                href={file.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                key={file.id}
+                                className="flex items-center p-3 w-full bg-sky-50 border border-sky-200 text-sky-700 rounded-md hover:bg-sky-100 transition mb-2"
+                            >
+                                <File className="h-4 w-4 mr-2 flex-shrink-0" />
+                                <span className="text-sm line-clamp-1">{file.name}</span>
+                            </a>
+                        ))}
                     </div>
                 )}
 

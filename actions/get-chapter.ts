@@ -36,7 +36,11 @@ export const getChapter = async ({
                 isPublished: true,
             },
             include: {
-                attachments: true,
+                attachments: {
+                    orderBy: {
+                        createdAt: "desc",
+                    }
+                },
             },
         });
 
@@ -73,12 +77,8 @@ export const getChapter = async ({
         let nextChapter: Chapter | null = null;
         let previousChapter: Chapter | null = null;
 
-        if (purchase) {
-            attachments = await db.attachment.findMany({
-                where: {
-                    courseId: courseId
-                }
-            });
+        if (chapter.attachments) {
+            attachments = chapter.attachments;
         }
 
         if (chapter.isFree || purchase) {
