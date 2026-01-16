@@ -9,7 +9,6 @@ import {
     MonitorPlay,
     Download,
     File,
-    File,
     ChevronRight,
     ArrowLeft,
     ArrowRight
