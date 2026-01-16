@@ -198,19 +198,17 @@ export const ChapterView = ({
                         ) : (
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
                                 {attachments.map((file) => (
-                                    <div key={file.id} className="relative aspect-square cursor-pointer overflow-hidden rounded-md border hover:opacity-75 group bg-slate-100 dark:bg-zinc-800">
-                                        <a href={file.url} target="_blank" rel="noopener noreferrer" className="relative w-full h-full block">
-                                            <Image
-                                                src={file.url}
-                                                alt={file.name}
-                                                fill
-                                                className="object-cover"
-                                            />
-                                            <div className="absolute bottom-0 w-full bg-black/60 p-2">
-                                                <p className="text-white text-xs truncate">
-                                                    {file.name}
-                                                </p>
-                                            </div>
+                                    <div key={file.id} className="relative aspect-square cursor-pointer overflow-hidden rounded-md border hover:opacity-75 group bg-slate-100 dark:bg-slate-800">
+                                        <a
+                                            href={file.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="relative w-full h-full flex items-center justify-center flex-col gap-2 p-2"
+                                        >
+                                            <File className="h-10 w-10 text-slate-400 group-hover:text-slate-500 transition" />
+                                            <p className="text-xs text-slate-500 truncate w-full text-center px-1">
+                                                {file.name}
+                                            </p>
                                         </a>
                                     </div>
                                 ))}

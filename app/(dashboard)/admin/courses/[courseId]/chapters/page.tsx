@@ -2,9 +2,9 @@ import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { IconBadge } from "@/components/icon-badge";
-import { ListChecks, File, Video } from "lucide-react";
+import { ListChecks, Video } from "lucide-react";
 import { ChaptersForm } from "../_components/chapters-form";
-import { AttachmentForm } from "../_components/attachment-form";
+// import { AttachmentForm } from "../_components/attachment-form";
 import { Banner } from "@/components/banner";
 import { Actions } from "../_components/actions";
 
@@ -90,21 +90,7 @@ const ChaptersPage = async ({
                     />
                 </div>
 
-                <div className="space-y-6 pt-6 border-t">
-                    <div className="flex items-center gap-x-2">
-                        <IconBadge icon={File} />
-                        <h2 className="text-xl">
-                            Documents & PDFs (Global)
-                        </h2>
-                    </div>
-                    <p className="text-sm text-slate-500 mb-4">
-                        Ajoutez ici les documents qui concernent tout le cours (Pack Wataniyat, Résumés, etc).
-                    </p>
-                    <AttachmentForm
-                        initialData={course}
-                        courseId={course.id}
-                    />
-                </div>
+                {/* Global Attachments Removed as per request */}
             </div>
         </div>
     );
