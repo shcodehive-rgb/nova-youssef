@@ -7,6 +7,8 @@ import { TitleForm } from "./_components/title-form";
 import { DescriptionForm } from "./_components/description-form";
 import { ImageForm } from "./_components/image-form";
 import { CategoryForm } from "./_components/category-form";
+import { TeacherNameForm } from "./_components/teacher-name-form";
+import { TeacherBioForm } from "./_components/teacher-bio-form";
 import { Banner } from "@/components/banner";
 import { Actions } from "./_components/actions";
 // import { AccessForm } from "./_components/access-form";
@@ -57,12 +59,6 @@ const CourseIdPage = async ({
         course.description,
         course.imageUrl,
         course.categoryId,
-        // Price and Chapters are now managed elsewhere so maybe they block publishing globally, 
-        // but for this visual completion we might just show General Completion? 
-        // Or keep the global completion logic in the header? 
-        // User asked for "SaaS Sidebar", usually header shows global status.
-        course.price,
-        course.chapters.some(chapter => chapter.isPublished),
     ];
 
     const totalFields = requiredFields.length;
@@ -107,6 +103,14 @@ const CourseIdPage = async ({
                         courseId={course.id}
                     />
                     <DescriptionForm
+                        initialData={course}
+                        courseId={course.id}
+                    />
+                    <TeacherNameForm
+                        initialData={course}
+                        courseId={course.id}
+                    />
+                    <TeacherBioForm
                         initialData={course}
                         courseId={course.id}
                     />

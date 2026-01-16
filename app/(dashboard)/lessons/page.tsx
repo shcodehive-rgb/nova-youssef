@@ -52,8 +52,8 @@ export default async function LessonsPage({
                         <a
                             href="/lessons"
                             className={`px-4 py-2 rounded-full text-sm font-semibold transition-all shadow-sm border ${!categoryId
-                                    ? 'bg-primary text-primary-foreground border-primary'
-                                    : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50 hover:border-slate-300'
+                                ? 'bg-primary text-primary-foreground border-primary'
+                                : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50 hover:border-slate-300'
                                 }`}
                         >
                             Tout
@@ -64,8 +64,8 @@ export default async function LessonsPage({
                                 key={cat.id}
                                 href={`/lessons?categoryId=${cat.id}`}
                                 className={`px-4 py-2 rounded-full text-sm font-semibold transition-all shadow-sm border ${categoryId === cat.id
-                                        ? 'bg-primary text-primary-foreground border-primary'
-                                        : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50 hover:border-slate-300'
+                                    ? 'bg-primary text-primary-foreground border-primary'
+                                    : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50 hover:border-slate-300'
                                     }`}
                             >
                                 {cat.name}
@@ -99,7 +99,7 @@ export default async function LessonsPage({
                                 key={course.id}
                                 id={course.id}
                                 title={course.title}
-                                instructorName="Prof. Samad" // Hardcoded for now per style
+                                instructorName={course.teacherName || "Prof. Samad"}
                                 imageUrl={course.imageUrl || ''}
                                 category={course.category?.name || 'Général'}
                                 isFree={!course.price || course.price === 0}

@@ -17,6 +17,9 @@ model Course {
   imageUrl    String? @db.Text
   price       Float?
   isPublished Boolean @default(false)
+  
+  teacherName String? @db.Text
+  teacherBio  String? @db.Text
 
   categoryId  String?
   category    Category? @relation(fields: [categoryId], references: [id])
