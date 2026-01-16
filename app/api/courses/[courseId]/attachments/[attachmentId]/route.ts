@@ -1,7 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-
+export const dynamic = "force-dynamic";
 export async function DELETE(
     req: Request,
     { params }: { params: Promise<{ courseId: string; attachmentId: string }> }
