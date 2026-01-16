@@ -17,6 +17,7 @@ export async function DELETE(
         const courseOwner = await db.course.findUnique({
             where: {
                 id: courseId,
+                userId: userId, // <--- ضروري تزيد هادي باش تأكد أنه هو المولشي
             }
         });
 
