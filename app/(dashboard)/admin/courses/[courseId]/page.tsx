@@ -9,7 +9,7 @@ import { ImageForm } from "./_components/image-form";
 import { CategoryForm } from "./_components/category-form";
 import { Banner } from "@/components/banner";
 import { Actions } from "./_components/actions";
-import { AccessForm } from "./_components/access-form";
+// import { AccessForm } from "./_components/access-form";
 
 const CourseIdPage = async ({
     params
@@ -126,11 +126,7 @@ const CourseIdPage = async ({
                         courseId={course.id}
                     />
 
-                    {/* Manual Access Management */}
-                    <AccessForm
-                        courseId={course.id}
-                        whitelist={whitelist}
-                    />
+                    {/* AccessForm moved to /students page */}
                 </div>
             </div>
         </div>

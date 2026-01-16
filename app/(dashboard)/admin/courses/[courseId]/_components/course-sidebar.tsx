@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { LayoutDashboard, ListVideo, CircleDollarSign } from "lucide-react";
+import { LayoutDashboard, ListVideo, CircleDollarSign, Users } from "lucide-react";
 import Link from "next/link";
 
 interface CourseSidebarItemProps {
@@ -59,6 +59,12 @@ export const CourseSidebar = ({ courseId }: { courseId: string }) => {
             label: "Prix",
             href: `/admin/courses/${courseId}/price`,
             active: pathname.includes(`/admin/courses/${courseId}/price`)
+        },
+        {
+            icon: Users,
+            label: "Élèves",
+            href: `/admin/courses/${courseId}/students`,
+            active: pathname.includes(`/admin/courses/${courseId}/students`)
         },
     ];
 
