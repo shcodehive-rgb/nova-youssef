@@ -87,6 +87,8 @@ export const VideoPlayer = ({
                         // !isReady && "hidden" // Only hide if we have a thumbnail/poster to show, otherwise native video loader is fine
                     )}
                     controls
+                    controlsList="nodownload"
+                    onContextMenu={(e) => e.preventDefault()}
                     autoPlay
                     onLoadedData={() => setIsReady(true)}
                     onEnded={onEnd}

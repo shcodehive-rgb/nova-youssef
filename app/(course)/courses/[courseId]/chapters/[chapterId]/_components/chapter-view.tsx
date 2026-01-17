@@ -72,7 +72,10 @@ export const ChapterView = ({
                     />
                 )}
 
-                <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-slate-200 bg-slate-900 shadow-md">
+                <div
+                    className="relative aspect-video w-full overflow-hidden rounded-xl border border-slate-200 bg-slate-900 shadow-md"
+                    onContextMenu={(e) => e.preventDefault()}
+                >
                     <VideoPlayer
                         chapterId={chapter.id}
                         title={chapter.title}
