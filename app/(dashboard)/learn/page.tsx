@@ -89,7 +89,7 @@ export default async function LearnPage() {
                                 key={course.id}
                                 id={course.id}
                                 title={course.title}
-                                instructorName="Prof. Youssef" // TODO: Add instructor field to database
+                                teacherName={course.teacherName || "Enseignant"}
 
                                 imageUrl={course.imageUrl || '/placeholder-course.jpg'}
                                 category={course.categoryId || 'General'}

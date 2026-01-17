@@ -8,7 +8,7 @@ import { Lock } from 'lucide-react';
 export interface CourseCardProps {
     id: string;
     title: string;
-    instructorName: string;
+    teacherName?: string | null;
     instructorAvatar?: string;
     // price: string; // HIDDEN
     imageUrl: string;
@@ -19,7 +19,7 @@ export interface CourseCardProps {
 const CourseCard: React.FC<CourseCardProps> = ({
     id,
     title,
-    instructorName,
+    teacherName,
     imageUrl,
     category,
     isFree = false,
@@ -64,7 +64,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
                         {title}
                     </h3>
                     <p className="text-xs text-muted-foreground mt-2 line-clamp-1">
-                        {instructorName}
+                        {teacherName || "Enseignant"}
                     </p>
 
                     {/* En savoir plus Button */}

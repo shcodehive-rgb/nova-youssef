@@ -12,7 +12,7 @@ const courses = [
     {
         id: "2bac-sm-analyse",
         title: "2 Bac SM - Analyse (Calculus Mastery)",
-        instructorName: "Prof. Alami",
+        teacherName: "Prof. Alami",
         price: "399 MAD",
         category: "Math",
         imageUrl: "/placeholder-math.jpg", // in a real app, these would be real public paths
@@ -20,7 +20,7 @@ const courses = [
     {
         id: "univ-s1-mechanics",
         title: "Mechanics & Newton's Laws (University S1)",
-        instructorName: "Dr. Bennani",
+        teacherName: "Dr. Bennani",
         price: "299 MAD",
         category: "Physics",
         imageUrl: "/placeholder-physics.jpg",
@@ -28,7 +28,7 @@ const courses = [
     {
         id: "concours-ensa-ensam",
         title: "Preparation for ENSA/ENSAM Concours",
-        instructorName: "Prof. Alami",
+        teacherName: "Prof. Alami",
         price: "599 MAD",
         category: "Concours",
         imageUrl: "/placeholder-concours.jpg",
@@ -36,7 +36,7 @@ const courses = [
     {
         id: "limits-continuity",
         title: "Limits & Continuity - Free Starter",
-        instructorName: "Prof. Alami",
+        teacherName: "Prof. Alami",
         price: "Free",
         category: "Math",
         imageUrl: "/placeholder-free.jpg",

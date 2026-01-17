@@ -99,7 +99,7 @@ export default async function LessonsPage({
                                 key={course.id}
                                 id={course.id}
                                 title={course.title}
-                                instructorName={course.teacherName || "Prof. Samad"}
+                                teacherName={course.teacherName}
                                 imageUrl={course.imageUrl || ''}
                                 category={course.category?.name || 'Général'}
                                 isFree={!course.price || course.price === 0}
