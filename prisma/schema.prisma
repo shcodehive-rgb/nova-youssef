@@ -144,6 +144,7 @@ model Comment {
   id String @id @default(uuid())
   text String @db.Text
   userId String
+  userEmail String @default("Étudiant") // Store email/name here
   chapterId String
   chapter Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())

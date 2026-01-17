@@ -14,7 +14,9 @@ interface Comment {
     id: string;
     text: string;
     userId: string;
+    userEmail?: string;
     createdAt: string;
+    isTeacher?: boolean;
 }
 
 interface CommentSectionProps {
@@ -88,16 +90,29 @@ export const CommentSection = ({
 
             <div className="space-y-4">
                 {comments.map((comment) => (
-                    <div key={comment.id} className="flex gap-x-4 p-4 border rounded-md bg-slate-50 dark:bg-slate-900">
+                    <div
+                        key={comment.id}
+                        className={`flex gap-x-4 p-4 border rounded-md ${comment.isTeacher
+                            ? "bg-indigo-50/50 border-indigo-200 dark:bg-indigo-950/20 dark:border-indigo-900"
+                            : "bg-slate-50 dark:bg-slate-900"
+                            }`}
+                    >
                         <div className="flex-shrink-0">
-                            <div className="bg-slate-200 p-2 rounded-full">
-                                <User className="h-6 w-6 text-slate-600" />
+                            <div className={`p-2 rounded-full ${comment.isTeacher ? "bg-indigo-100 dark:bg-indigo-900" : "bg-slate-200 dark:bg-slate-800"}`}>
+                                <User className={`h-6 w-6 ${comment.isTeacher ? "text-indigo-600 dark:text-indigo-400" : "text-slate-600 dark:text-slate-400"}`} />
                             </div>
                         </div>
                         <div className="flex-1">
                             <div className="flex items-center gap-x-2 mb-1">
-                                <span className="font-semibold text-sm">Student</span>
-                                <span className="text-xs text-slate-500">
+                                <span className={`font-semibold text-sm ${comment.isTeacher ? "text-indigo-700 dark:text-indigo-400" : ""}`}>
+                                    {comment.userEmail?.split('@')[0] || "Étudiant"}
+                                </span>
+                                {comment.isTeacher && (
+                                    <span className="bg-indigo-600 text-white text-[10px] px-1.5 py-0.5 rounded uppercase font-bold tracking-wide">
+                                        Professeur
+                                    </span>
+                                )}
+                                <span className="text-xs text-slate-500 ml-auto">
                                     {new Date(comment.createdAt).toLocaleDateString()}
                                 </span>
                             </div>
