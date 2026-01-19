@@ -1,6 +1,24 @@
-import {
-    LayoutDashboard,
-    LayoutTemplate,
+import { Suspense } from "react";
+// ... imports
+
+export const dynamic = "force-dynamic";
+
+export default async function SettingsPage({
+    searchParams,
+}: {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) {
+    // ... logic
+
+    return (
+        <Suspense fallback={<div>Loading settings...</div>}>
+            <div className="p-6 md:p-10">
+                {/* ... content */}
+            </div>
+        </Suspense>
+    );
+}
+LayoutTemplate,
     Newspaper,
     MonitorPlay,
     CreditCard,
@@ -15,6 +33,8 @@ import { ResultsForm } from "./_components/results-form";
 import { BlogList } from "./_components/blog-list";
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
+
+export const dynamic = "force-dynamic";
 
 export default async function SettingsPage({
     searchParams,
