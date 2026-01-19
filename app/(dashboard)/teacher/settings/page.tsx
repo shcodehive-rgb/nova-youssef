@@ -16,27 +16,38 @@ import { ResultsForm } from "./_components/results-form";
 import { BlogList } from "./_components/blog-list";
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
+// ✅ Fix: Use 'any' for searchParams promise to avoid strict type conflicts during build
 export default async function SettingsPage({
     searchParams,
 }: {
-    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+    searchParams: Promise<any>
 }) {
     const resolvedSearchParams = await searchParams;
-    const activeTab = (resolvedSearchParams.tab as string) || "general";
+    const activeTab = (resolvedSearchParams?.tab as string) || "general";
+
     const { userId } = await auth();
+
+    // ✅ Fix: Guard against null userId
+    if (!userId) {
+        return redirect("/");
+    }
 
     // Fetch data for tabs
     const siteConfig = await db.siteConfig.findUnique({
-        where: { userId: userId! }
+        where: { userId: userId }
     });
 
-    const pricingPlans = activeTab === "pricing" ? await db.pricingPlan.findMany({
-        where: { userId: userId! },
-        orderBy: { price: "asc" }
-    }) : [];
+    // ✅ Fix: Explicitly handle the array type
+    const pricingPlans = activeTab === "pricing"
+        ? await db.pricingPlan.findMany({
+            where: { userId: userId },
+            orderBy: { price: "asc" }
+        })
+        : [];
 
     const getTitle = () => {
         switch (activeTab) {
@@ -67,7 +78,7 @@ export default async function SettingsPage({
     };
 
     return (
-        <Suspense fallback={<div>Loading settings...</div>}>
+        <Suspense fallback={<div className="p-6">Chargement des paramètres...</div>}>
             <div className="p-6 md:p-10">
                 <div className="max-w-4xl">
                     <div className="mb-8">
@@ -81,20 +92,12 @@ export default async function SettingsPage({
 
                     <div className="space-y-6">
                         {activeTab === "general" && <GeneralForm />}
-
                         {activeTab === "visuals" && <VisualsForm />}
-
                         {activeTab === "social" && <SocialForm />}
-
                         {activeTab === "footer" && <FooterForm />}
-
                         {activeTab === "pricing" && <PricingForm initialData={pricingPlans} />}
-
                         {activeTab === "results" && siteConfig && <ResultsForm initialData={siteConfig} />}
-
-                        {activeTab === "blog" && (
-                            <BlogList />
-                        )}
+                        {activeTab === "blog" && <BlogList />}
 
                         {activeTab === "courses" && (
                             <div className="p-6 border rounded-lg bg-gray-50 text-center text-slate-500">
