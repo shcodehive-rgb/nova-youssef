@@ -1,9 +1,12 @@
+import Footer from "@/components/Footer";
+
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     return (
-        <div className="w-full pt-16">
-            <div className="p-6">
+        <div className="h-full">
+            <div className="pt-[80px] h-full">
                 {children}
             </div>
+            <Footer />
         </div>
     );
 }

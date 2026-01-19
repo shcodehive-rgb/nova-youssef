@@ -6,8 +6,20 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Plus, Pencil } from "lucide-react";
 
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+
 export default async function CoursesPage() {
+    const { userId } = await auth();
+
+    if (!userId) {
+        return redirect("/");
+    }
+
     const courses = await db.course.findMany({
+        where: {
+            userId,
+        },
         orderBy: {
             createdAt: 'desc',
         },
@@ -21,7 +33,7 @@ export default async function CoursesPage() {
                     <h1 className="text-3xl font-bold tracking-tight text-slate-900">Courses Manager</h1>
                     <p className="text-slate-500">View and manage your educational content.</p>
                 </div>
-                <Link href="/admin/create">
+                <Link href="/teacher/settings/courses/create">
                     <Button className="bg-orange-600 hover:bg-orange-700 text-white">
                         <Plus className="w-4 h-4 mr-2" />
                         New Course
@@ -62,7 +74,7 @@ export default async function CoursesPage() {
                                         {new Date(course.createdAt).toLocaleDateString()}
                                     </TableCell>
                                     <TableCell className="text-right">
-                                        <Link href={`/admin/courses/${course.id}`}>
+                                        <Link href={`/teacher/settings/courses/${course.id}`}>
                                             <Button variant="ghost" size="icon" className="hover:bg-slate-100">
                                                 <Pencil className="w-4 h-4 text-slate-600" />
                                             </Button>

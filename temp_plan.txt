@@ -1,0 +1,49 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import CourseCard from "@/components/CourseCard";
+import { PlayCircle, Search, Check } from "lucide-react";
+import { motion } from "framer-motion";
+import { siteConfig } from "@/actions/site-config"; // We might need to fetch this differently in a client component, or pass as props. 
+// For now, let's keep it static/client-side fetched or use a server component wrapper if we really need dynamic data.
+// But valid requirement is "Rewrite app/(dashboard)/home/page.tsx".
+// To use framer-motion, we need "use client".
+// But we also need server data (courses).
+// Best approach: Client Component for Hero, Server Component for Page.
+
+// Let's create the Page as Server Component and Hero as Client Component.
+// Wait, to rewrite the WHOLE file in one go as requested, I will make the page a Client Component 
+// OR keep it secure by fetching data in a Server Component and passing it to a Client Component.
+
+// SIMPLER APPROACH for "IMMEDIATE RESTORE":
+// Make the whole page "use client" for Animation but we lose async DB calls.
+// BETTER: Split.
+// 1. app/(dashboard)/home/page.tsx (Server) -> Fetches Data
+// 2. app/(dashboard)/home/_components/home-client.tsx (Client) -> Animation & UI
+
+// However, I must rewrite "app/(dashboard)/home/page.tsx".
+// I will create the client component internally or in a separate file if I have to.
+// Let's try to keep it simple. If I make the page.tsx "use client", I can't use `db`.
+// So I MUST separate them.
+
+// ACTUALLY, I will write the client component code into a new file `_components/school-home-client.tsx` 
+// and then have `page.tsx` import it. 
+// This is the cleanest architecture.
+
+// But the user asked to rewrite `app/(dashboard)/home/page.tsx`.
+// I'll stick to the Server Component pattern for `page.tsx` and create a local client component to handle the hero animation.
+
+// Let's write the Client Component first.
+import { getCourses } from "@/actions/get-courses"; // We don't have this yet? We checked.
+// We'll fetch courses in page.tsx using db.
+
+// OK, plan:
+// 1. Create `app/(dashboard)/home/_components/hero-section.tsx` (Client - Framer Motion)
+// 2. Rewrite `app/(dashboard)/home/page.tsx` (Server - DB Calls)
+
+// Wait, I can't do multiple files in one `write_to_file`.
+// I will use `run_command` to create the dir if needed (it exists).
+// I will write the Client Component first.
+return null; 

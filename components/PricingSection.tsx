@@ -1,123 +1,82 @@
-import React from 'react';
-import { Check } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+"use client";
 
-const PricingSection = () => {
+import { PricingPlan } from "@prisma/client";
+import { Check } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
+
+interface PricingSectionProps {
+    plans: PricingPlan[];
+}
+
+export const PricingSection = ({ plans }: PricingSectionProps) => {
+    if (!plans || plans.length === 0) return null;
+
     return (
-        <section className="py-24 bg-gray-50 dark:bg-zinc-950/50">
+        <div className="py-10 bg-slate-50">
             <div className="max-w-7xl mx-auto px-6">
-
-                {/* Header */}
-                <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-                    <h2 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl">
-                        Invest in Your <span className="text-primary">Success</span>
+                <div className="text-center max-w-3xl mx-auto mb-10">
+                    <h2 className="text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
+                        Nos Offres & Packs
                     </h2>
-                    <p className="text-lg text-gray-500 dark:text-gray-400">
-                        Choose the plan that fits your goals. From exam preparation to personalized coaching, we have you covered.
-                    </p>
                 </div>
 
-                {/* Pricing Grid */}
-                <div className="grid gap-8 md:grid-cols-3 lg:gap-12">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
+                    {plans.map((plan) => (
+                        <div
+                            key={plan.id}
+                            className={cn(
+                                "relative flex flex-col bg-white rounded-2xl border p-8 shadow-sm transition-all duration-300 hover:shadow-xl",
+                                plan.isRecommended ? "border-orange-500 ring-4 ring-orange-500/10 scale-105 z-10" : "border-slate-200"
+                            )}
+                        >
+                            {plan.isRecommended && (
+                                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-orange-500 to-red-500 text-white px-4 py-1 rounded-full text-sm font-bold tracking-wide shadow-md">
+                                    RECOMMANDÉ
+                                </div>
+                            )}
 
-                    {/* Card 1: Pack Essentiel */}
-                    <div className="flex flex-col p-8 bg-white dark:bg-zinc-900 rounded-2xl border border-gray-100 dark:border-zinc-800 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                        <div className="mb-8">
-                            <h3 className="text-xl font-bold text-gray-900 dark:text-white">Pack Essentiel</h3>
-                            <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">Best for 2ème année bac (SVT & PC)</p>
-                            <div className="mt-6 flex items-baseline gap-1">
-                                <span className="text-4xl font-extrabold text-gray-900 dark:text-white">200 DH</span>
-                                <span className="text-sm font-medium text-gray-500">/ Semestre</span>
+                            <div className="mb-6">
+                                <h3 className="text-xl font-bold text-slate-900 mb-2">{plan.title}</h3>
+                                <div className="flex items-baseline">
+                                    <span className="text-4xl font-extrabold text-slate-900">{plan.price}</span>
+                                    <span className="text-xl font-bold text-slate-900 ml-1">DH</span>
+                                    <span className="text-slate-500 ml-2">/ {plan.frequency}</span>
+                                </div>
                             </div>
-                        </div>
-                        <ul className="flex-1 space-y-4 mb-8">
-                            {[
-                                "Préparation Examen National",
-                                "1ère séance gratuite",
-                                "Cours à distance"
-                            ].map((feature) => (
-                                <li key={feature} className="flex items-start gap-3">
-                                    <div className="rounded-full p-1 bg-orange-100 dark:bg-orange-900/30 text-primary mt-0.5">
-                                        <Check className="w-3 h-3" />
-                                    </div>
-                                    <span className="text-sm text-gray-600 dark:text-gray-300">{feature}</span>
-                                </li>
-                            ))}
-                        </ul>
-                        <Button variant="outline" className="w-full border-primary text-primary hover:bg-orange-50 dark:hover:bg-orange-950/30">
-                            S'inscrire
-                        </Button>
-                    </div>
 
-                    {/* Card 2: Pack Avancé */}
-                    <div className="flex flex-col p-8 bg-white dark:bg-zinc-900 rounded-2xl border border-primary/20 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 relative">
-                        <div className="mb-8">
-                            <h3 className="text-xl font-bold text-gray-900 dark:text-white">Pack Avancé</h3>
-                            <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">Perfect for ambitious students</p>
-                            <div className="mt-6 flex items-baseline gap-1">
-                                <span className="text-4xl font-extrabold text-gray-900 dark:text-white">300 DH</span>
-                                <span className="text-sm font-medium text-gray-500">/ Semestre</span>
-                            </div>
-                        </div>
-                        <ul className="flex-1 space-y-4 mb-8">
-                            {[
-                                "Cours Détaillé (Vidéo + PDF)",
-                                "Correction Détaillée",
-                                "Lives chaque semaine",
-                                "Enregistrement des lives",
-                                "Groupe Whatsapp"
-                            ].map((feature) => (
-                                <li key={feature} className="flex items-start gap-3">
-                                    <div className="rounded-full p-1 bg-orange-100 dark:bg-orange-900/30 text-primary mt-0.5">
-                                        <Check className="w-3 h-3" />
-                                    </div>
-                                    <span className="text-sm text-gray-600 dark:text-gray-300">{feature}</span>
-                                </li>
-                            ))}
-                        </ul>
-                        <Button className="w-full bg-primary hover:bg-primary/90 text-white shadow-lg shadow-orange-500/20">
-                            S'inscrire
-                        </Button>
-                    </div>
+                            <ul className="space-y-4 mb-8 flex-1">
+                                {plan.features.split("\n").map((feature, i) => (
+                                    <li key={i} className="flex items-start">
+                                        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center mt-0.5 mr-3">
+                                            <Check className="w-3.5 h-3.5 text-emerald-600" />
+                                        </div>
+                                        <span className="text-slate-600 font-medium">{feature.replace(/^- /, "")}</span>
+                                    </li>
+                                ))}
+                            </ul>
 
-                    {/* Card 3: Pack VIP */}
-                    <div className="flex flex-col p-8 bg-white dark:bg-zinc-900 rounded-2xl border border-gray-100 dark:border-zinc-800 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative ring-2 ring-primary ring-offset-2 dark:ring-offset-zinc-950">
-                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white px-4 py-1 rounded-full text-xs font-bold tracking-wide shadow-md">
-                            RECOMMMANDÉ
+                            <Link
+                                href={plan.url || "/contact"}
+                                className="w-full"
+                                target={plan.url?.startsWith("http") ? "_blank" : "_self"}
+                            >
+                                <Button
+                                    className={cn(
+                                        "w-full h-12 rounded-xl text-base font-bold transition-transform active:scale-95",
+                                        plan.isRecommended
+                                            ? "bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white shadow-lg shadow-orange-500/25"
+                                            : "bg-slate-900 hover:bg-slate-800 text-white"
+                                    )}
+                                >
+                                    {plan.url ? "S'inscrire" : "Nous contacter"}
+                                </Button>
+                            </Link>
                         </div>
-                        <div className="mb-8">
-                            <h3 className="text-xl font-bold text-gray-900 dark:text-white">Pack VIP</h3>
-                            <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">For those who want excellence</p>
-                            <div className="mt-6 flex items-baseline gap-1">
-                                <span className="text-4xl font-extrabold text-gray-900 dark:text-white">500 DH</span>
-                                <span className="text-sm font-medium text-gray-500">/ Semestre</span>
-                            </div>
-                        </div>
-                        <ul className="flex-1 space-y-4 mb-8">
-                            <p className="text-xs font-semibold text-primary uppercase tracking-wider mb-2">Everything in Avancé +</p>
-                            {[
-                                "Suivi Personnalisé (Coaching)",
-                                "Devoirs surveillés corrigés",
-                                "Access Prioritaire Prof"
-                            ].map((feature) => (
-                                <li key={feature} className="flex items-start gap-3">
-                                    <div className="rounded-full p-1 bg-orange-100 dark:bg-orange-900/30 text-primary mt-0.5">
-                                        <Check className="w-3 h-3" />
-                                    </div>
-                                    <span className="text-sm text-gray-600 dark:text-gray-300 font-medium">{feature}</span>
-                                </li>
-                            ))}
-                        </ul>
-                        <Button size="lg" className="w-full bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100 text-white font-bold text-lg h-14">
-                            Je veux l'Excellence
-                        </Button>
-                    </div>
-
+                    ))}
                 </div>
             </div>
-        </section>
+        </div>
     );
-};
-
-export default PricingSection;
+}

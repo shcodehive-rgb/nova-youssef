@@ -39,7 +39,7 @@ export default function CreateCoursePage() {
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             const response = await createCourse(values.title);
-            router.push(`/admin/courses/${response.id}`);
+            router.push(`/teacher/settings/courses/${response.id}`);
             // Assuming toast provider exists, if not this might just silently fail or warn. 
             // Safe to include or can remove if no request. Adding simple alert fallback logic if standard approach fails.
         } catch {
@@ -80,7 +80,7 @@ export default function CreateCoursePage() {
                             )}
                         />
                         <div className="flex items-center gap-x-2">
-                            <Link href="/admin">
+                            <Link href="/teacher/settings/courses">
                                 <Button type="button" variant="ghost">
                                     Cancel
                                 </Button>

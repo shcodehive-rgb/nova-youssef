@@ -43,9 +43,10 @@ const Sidebar = () => {
     const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
 
     const navigation = [
-        { name: "Cours", href: "/search", icon: BookOpen },
+        // { name: "Cours", href: "/search", icon: BookOpen },
         { name: "Exercises", href: "/exercises", icon: FileText },
         { name: "Exams / Nationals", href: "/exams", icon: GraduationCap },
+        { name: "Settings", href: "/teacher/settings", icon: MoreHorizontal },
     ];
 
     return (

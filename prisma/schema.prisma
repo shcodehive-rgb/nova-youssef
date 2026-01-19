@@ -151,3 +151,98 @@ model Comment {
   updatedAt DateTime @updatedAt
   @@index([chapterId])
 }
+
+model SiteConfig {
+  id String @id @default(uuid())
+  userId String @unique
+  
+  heroTitle String? @db.Text
+  heroDescription String? @db.Text
+  heroImageUrl String? @db.Text
+
+  name String? @db.Text
+  logoUrl String? @db.Text
+  
+  // Dual Brand Logo
+  logoText1 String?
+  logoColor1 String? @default("#000000")
+  logoText2 String? 
+  logoColor2 String? @default("#ea580c") // Orange-600 default
+  
+  socialLinks Json? // { tiktok: string, instagram: string, whatsapp: string }
+  footerCopyright String? @db.Text
+  footerLogoUrl String? @db.Text
+  footerBrandName String? @db.Text // Legacy/Fallback
+  
+  // Footer Dual Brand Logo
+  footerLogoText1 String?
+  footerLogoColor1 String? @default("#ffffff")
+  footerLogoText2 String? 
+  footerLogoColor2 String? @default("#ea580c")
+
+  footerLinks Json? // [{ header: string, links: [{ label: string, url: string }] }]
+  footerText String? @db.Text
+  
+  contactEmail String?
+  
+  // Carousel Results
+  resultsImages String[] @default([])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PricingPlan {
+  id String @id @default(uuid())
+  userId String
+  
+  title String
+  price Float
+  currency String @default("DH")
+  frequency String // "Mois", "Année", "Unique"
+  features String @db.Text // JSON or newline separated
+  isRecommended Boolean @default(false)
+  url String? // Link to checkout
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model Page {
+  id String @id @default(uuid())
+  userId String
+  title String
+  slug String @unique
+  content String @db.Text
+  isPublished Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([userId])
+}
+
+model BlogPost {
+  id          String   @id @default(uuid())
+  userId      String
+  
+  title       String   @db.Text
+  content     String?  @db.Text
+  coverImageUrl  String?  @db.Text
+  
+  slug        String   @unique
+  metaTitle   String?  @db.Text
+  metaDescription String? @db.Text
+  keywords    String?  @db.Text
+  
+  isPublished Boolean  @default(false)
+  
+  viewCount   Int      @default(0)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([userId])
+  @@index([slug])
+}

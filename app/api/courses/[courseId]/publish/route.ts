@@ -27,9 +27,16 @@ export async function PATCH(
             return new NextResponse("Not found", { status: 404 });
         }
 
-        const hasPublishedChapter = course.chapters.some((chapter) => chapter.isPublished);
+        // const hasPublishedChapter = course.chapters.some((chapter) => chapter.isPublished); // Removed requirement
 
-        if (!course.title || !course.description || !course.imageUrl || !hasPublishedChapter) {
+        if (!course.title || !course.description || !course.imageUrl || !course.categoryId) {
+            console.log("Missing fields:", {
+                title: course.title,
+                desc: course.description,
+                img: course.imageUrl,
+                pubChap: hasPublishedChapter,
+                cat: course.categoryId
+            });
             return new NextResponse("Missing required fields", { status: 400 });
         }
 

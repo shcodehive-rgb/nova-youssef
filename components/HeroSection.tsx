@@ -87,7 +87,13 @@ const ExplodingSymbol = ({ symbol }: { symbol: any }) => {
     );
 };
 
-const HeroSection = () => {
+const HeroSection = ({
+    title,
+    description
+}: {
+    title?: string | null;
+    description?: string | null;
+}) => {
     const [symbols, setSymbols] = useState<any[]>([]);
 
     useEffect(() => {
@@ -103,19 +109,18 @@ const HeroSection = () => {
             <div className="container mx-auto px-6 h-full grid lg:grid-cols-2 gap-12 items-center">
 
                 {/* Left Side: Clean Content */}
-                <div className="z-20 space-y-6 pt-20 lg:pt-0">
+                <div className="z-20 space-y-6 pt-0 lg:pt-0">
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.6 }}
                         className="max-w-xl"
                     >
-                        <h1 className="text-5xl lg:text-7xl font-bold tracking-tight text-slate-900 leading-[1.1]">
-                            Master <br />
-                            Math & Physics
+                        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 max-w-3xl leading-tight">
+                            {title || "Master Math & Physics"}
                         </h1>
-                        <p className="text-xl text-slate-600 mt-6 leading-relaxed font-medium">
-                            Join Morocco's elite students. Experience a learning platform that combines academic rigor with interactive engagement.
+                        <p className="mt-4 text-lg sm:text-xl text-slate-600 max-w-2xl whitespace-pre-wrap font-medium">
+                            {description || "Join Morocco's elite students. Experience a learning platform that combines academic rigor with interactive engagement."}
                         </p>
 
                         <div className="flex flex-wrap gap-4 mt-8">

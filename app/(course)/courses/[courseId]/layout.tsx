@@ -6,6 +6,7 @@ import { getProgress } from "@/actions/get-progress";
 
 import { CourseSidebar } from "./_components/course-sidebar";
 import { CourseNavbar } from "./_components/course-navbar";
+import Footer from "@/components/Footer";
 
 const CourseLayout = async ({
     children,
@@ -70,6 +71,7 @@ const CourseLayout = async ({
             <main className="md:pr-80 pt-[80px] h-full">
                 {children}
             </main>
+            <Footer />
         </div>
     );
 }

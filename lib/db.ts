@@ -1,4 +1,4 @@
-// src/lib/db.ts
+// src/lib/db.ts - Connection Fix
 import { PrismaClient } from "@prisma/client";
 
 declare global {

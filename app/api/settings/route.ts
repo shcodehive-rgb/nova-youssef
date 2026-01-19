@@ -2,7 +2,7 @@ import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
-export async function POST(
+export async function PATCH(
     req: Request,
 ) {
     try {
@@ -13,27 +13,23 @@ export async function POST(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        // Check if user is Admin (Can use helper function or check specific email/role)
-        // For now, assuming middleware/layout protects this route's page, but API should be secure too.
-        // Ideally we check isAdmin(userId).
-
-        // let settings = await db.siteSettings.findFirst();
-
-        // if (settings) {
-        //     settings = await db.siteSettings.update({
-        //         where: { id: settings.id },
-        //         data: { ...values },
-        //     });
-        // } else {
-        //     settings = await db.siteSettings.create({
-        //         data: { ...values },
-        //     });
-        // }
-        const settings = values;
+        // Upsert the configuration for the user
+        const settings = await db.siteConfig.upsert({
+            where: {
+                userId,
+            },
+            update: {
+                ...values,
+            },
+            create: {
+                userId,
+                ...values,
+            }
+        });
 
         return NextResponse.json(settings);
     } catch (error) {
-        console.log("[SETTINGS]", error);
+        console.log("[SETTINGS_PATCH]", error);
         return new NextResponse("Internal Error", { status: 500 });
     }
 }

@@ -22,6 +22,10 @@ export const FileUpload = ({
             onUploadError={(error: Error) => {
                 toast.error(`${error?.message}`);
             }}
+            appearance={{
+                label: "text-slate-800 hover:text-slate-900",
+                allowedContent: "text-slate-600",
+            }}
         />
     )
 }

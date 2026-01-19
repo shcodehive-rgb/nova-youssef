@@ -51,6 +51,13 @@ export const ourFileRouter = {
         .onUploadComplete(() => {
             console.log("[UPLOADTHING] Upload complete for chapterAttachment");
         }),
+    resultsImages: f({ image: { maxFileSize: "4MB", maxFileCount: 10 } })
+        .middleware(async () => {
+            return await handleAuth();
+        })
+        .onUploadComplete(() => {
+            console.log("[UPLOADTHING] Results Uploaded");
+        }),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;

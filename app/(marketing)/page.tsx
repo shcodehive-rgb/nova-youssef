@@ -1,84 +1,61 @@
-"use client";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import HeroSection from "@/components/HeroSection";
+import { db } from "@/lib/db";
+import Footer from "@/components/Footer";
+import { PricingSection } from "@/components/PricingSection";
+import { ResultsCarousel } from "@/components/ResultsCarousel";
+import Navbar from "@/components/Navbar";
 
-import React from 'react';
-import CourseCard from '@/components/CourseCard';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import PricingSection from '@/components/PricingSection';
-import HeroSection from '@/components/HeroSection';
+export default async function Home() {
+    // 1. Redirect if disabled (Currently Active)
+    // Remove this line to enable the landing page
+    // return redirect("/sign-in");
 
-// Sample Data with the requested Moroccan context
-const courses = [
-    {
-        id: "2bac-sm-analyse",
-        title: "2 Bac SM - Analyse (Calculus Mastery)",
-        teacherName: "Prof. Alami",
-        price: "399 MAD",
-        category: "Math",
-        imageUrl: "/placeholder-math.jpg", // in a real app, these would be real public paths
-    },
-    {
-        id: "univ-s1-mechanics",
-        title: "Mechanics & Newton's Laws (University S1)",
-        teacherName: "Dr. Bennani",
-        price: "299 MAD",
-        category: "Physics",
-        imageUrl: "/placeholder-physics.jpg",
-    },
-    {
-        id: "concours-ensa-ensam",
-        title: "Preparation for ENSA/ENSAM Concours",
-        teacherName: "Prof. Alami",
-        price: "599 MAD",
-        category: "Concours",
-        imageUrl: "/placeholder-concours.jpg",
-    },
-    {
-        id: "limits-continuity",
-        title: "Limits & Continuity - Free Starter",
-        teacherName: "Prof. Alami",
-        price: "Free",
-        category: "Math",
-        imageUrl: "/placeholder-free.jpg",
-    },
-];
+    // 2. Auth Redirect (Disabled to allow everyone to see the Landing Page)
+    // const { userId } = await auth();
+    // if (userId) {
+    //     return redirect("/search");
+    // }
 
-export default function Home() {
+    // 3. Fetch Data
+    const teacherId = process.env.NEXT_PUBLIC_TEACHER_ID;
+    let siteConfig = null;
+    let pricingPlans = [];
+
+    if (teacherId) {
+        try {
+            siteConfig = await db.siteConfig.findUnique({
+                where: { userId: teacherId }
+            });
+
+            pricingPlans = await db.pricingPlan.findMany({
+                where: { userId: teacherId },
+                orderBy: { price: "asc" }
+            });
+
+        } catch (error) {
+            console.log("Error fetching site config:", error);
+        }
+    }
+
+    // 4. Render Page
     return (
-        <div className="bg-white min-h-screen pb-20">
+        <div className="min-h-screen">
+            <main>
+                <HeroSection
+                    title={siteConfig?.heroTitle}
+                    description={siteConfig?.heroDescription}
+                />
 
+                {siteConfig?.resultsImages && siteConfig.resultsImages.length > 0 && (
+                    <ResultsCarousel images={siteConfig.resultsImages} />
+                )}
 
-            {/* Section 1: 3D Hero Section */}
-            <HeroSection />
+                <PricingSection plans={pricingPlans} />
 
-            {/* Section 2: Course Grid */}
-            <section id="featured-courses" className="py-16 px-6 max-w-7xl mx-auto">
-                <div className="mb-10 flex items-center justify-between">
-                    <h2 className="text-2xl font-bold text-gray-900">Featured Courses</h2>
-                    <Link href="/lessons" className="text-sm font-medium text-gray-500 hover:text-primary hidden md:block">
-                        View All
-                    </Link>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {courses.map((course) => (
-                        <CourseCard
-                            key={course.id}
-                            {...course}
-                        />
-                    ))}
-                </div>
-
-                <div className="mt-10 text-center md:hidden">
-                    <Link href="/lessons" className="text-sm font-medium text-gray-500 hover:text-primary">
-                        View All Courses →
-                    </Link>
-                </div>
-            </section>
-
-            {/* Section 3: Pricing */}
-            <PricingSection />
-
+                <Footer />
+            </main>
         </div>
     );
 }
