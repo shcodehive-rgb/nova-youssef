@@ -1,24 +1,7 @@
 import { Suspense } from "react";
-// ... imports
-
-export const dynamic = "force-dynamic";
-
-export default async function SettingsPage({
-    searchParams,
-}: {
-    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-}) {
-    // ... logic
-
-    return (
-        <Suspense fallback={<div>Loading settings...</div>}>
-            <div className="p-6 md:p-10">
-                {/* ... content */}
-            </div>
-        </Suspense>
-    );
-}
-LayoutTemplate,
+import {
+    LayoutDashboard,
+    LayoutTemplate,
     Newspaper,
     MonitorPlay,
     CreditCard,
@@ -84,42 +67,44 @@ export default async function SettingsPage({
     };
 
     return (
-        <div className="p-6 md:p-10">
-            <div className="max-w-4xl">
-                <div className="mb-8">
-                    <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-                        {getTitle()}
-                    </h1>
-                    <p className="text-slate-500 text-sm mt-1">
-                        {getDescription()}
-                    </p>
-                </div>
+        <Suspense fallback={<div>Loading settings...</div>}>
+            <div className="p-6 md:p-10">
+                <div className="max-w-4xl">
+                    <div className="mb-8">
+                        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
+                            {getTitle()}
+                        </h1>
+                        <p className="text-slate-500 text-sm mt-1">
+                            {getDescription()}
+                        </p>
+                    </div>
 
-                <div className="space-y-6">
-                    {activeTab === "general" && <GeneralForm />}
+                    <div className="space-y-6">
+                        {activeTab === "general" && <GeneralForm />}
 
-                    {activeTab === "visuals" && <VisualsForm />}
+                        {activeTab === "visuals" && <VisualsForm />}
 
-                    {activeTab === "social" && <SocialForm />}
+                        {activeTab === "social" && <SocialForm />}
 
-                    {activeTab === "footer" && <FooterForm />}
+                        {activeTab === "footer" && <FooterForm />}
 
-                    {activeTab === "pricing" && <PricingForm initialData={pricingPlans} />}
+                        {activeTab === "pricing" && <PricingForm initialData={pricingPlans} />}
 
-                    {activeTab === "results" && siteConfig && <ResultsForm initialData={siteConfig} />}
+                        {activeTab === "results" && siteConfig && <ResultsForm initialData={siteConfig} />}
 
-                    {activeTab === "blog" && (
-                        <BlogList />
-                    )}
+                        {activeTab === "blog" && (
+                            <BlogList />
+                        )}
 
-                    {activeTab === "courses" && (
-                        <div className="p-6 border rounded-lg bg-gray-50 text-center text-slate-500">
-                            <MonitorPlay className="h-10 w-10 mx-auto mb-2 opacity-50" />
-                            <p>Gestion des cours déplacée vers /teacher/settings/courses</p>
-                        </div>
-                    )}
+                        {activeTab === "courses" && (
+                            <div className="p-6 border rounded-lg bg-gray-50 text-center text-slate-500">
+                                <MonitorPlay className="h-10 w-10 mx-auto mb-2 opacity-50" />
+                                <p>Gestion des cours déplacée vers /teacher/settings/courses</p>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
-        </div>
+        </Suspense>
     );
 }
