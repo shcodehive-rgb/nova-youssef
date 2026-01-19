@@ -30,7 +30,7 @@ const formSchema = z.object({
     title: z.string().min(1),
     slug: z.string().min(1),
     content: z.string().min(1, "Content is required"),
-    isPublished: z.boolean().default(false),
+    isPublished: z.boolean(),
 });
 
 interface PageFormProps {
@@ -42,12 +42,12 @@ export const PageForm = ({ initialData }: PageFormProps) => {
     const [isDeleting, setIsDeleting] = useState(false);
 
     const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+        resolver: zodResolver(formSchema) as any,
         defaultValues: {
             title: initialData.title,
             slug: initialData.slug,
             content: initialData.content,
-            isPublished: initialData.isPublished
+            isPublished: initialData.isPublished || false
         }
     });
 

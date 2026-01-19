@@ -21,7 +21,7 @@ export default async function Home() {
     // 3. Fetch Data
     const teacherId = process.env.NEXT_PUBLIC_TEACHER_ID;
     let siteConfig = null;
-    let pricingPlans = [];
+    let pricingPlans: any[] = [];
 
     if (teacherId) {
         try {

@@ -34,7 +34,7 @@ export async function PATCH(
                 title: course.title,
                 desc: course.description,
                 img: course.imageUrl,
-                pubChap: hasPublishedChapter,
+
                 cat: course.categoryId
             });
             return new NextResponse("Missing required fields", { status: 400 });
