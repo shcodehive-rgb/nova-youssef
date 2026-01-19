@@ -131,15 +131,15 @@ const CreateBlogContent = () => {
     );
 }
 
-const CreatePostPage = () => {
+const CreateBlogPage = () => {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div>Loading editor...</div>}>
             <CreateBlogContent />
         </Suspense>
     );
 }
 
-export default CreatePostPage;
+export default CreateBlogPage;
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
