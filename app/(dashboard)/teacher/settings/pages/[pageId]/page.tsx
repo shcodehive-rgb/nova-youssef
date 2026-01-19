@@ -20,12 +20,17 @@ const PageIdPage = async ({
         return redirect("/");
     }
 
+    // Fetch the page data from database
     const page = await db.page.findUnique({
-        where: { id: pageId }
+        where: {
+            id: pageId,
+            userId: userId
+        }
     });
 
+    // If page doesn't exist or doesn't belong to user, redirect
     if (!page) {
-        return redirect("/teacher/settings/pages");
+        return redirect("/teacher/settings?tab=pages");
     }
 
     return (
@@ -33,6 +38,6 @@ const PageIdPage = async ({
             <PageForm initialData={page} />
         </div>
     );
-}
+};
 
 export default PageIdPage;

@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import {
     LayoutDashboard,
     Globe,
@@ -33,7 +34,7 @@ const settingsTabs = [
     { id: "pages", label: "Pages", icon: FileText, href: "/teacher/settings/pages" },
 ];
 
-export default function SettingsLayout({
+function SettingsLayoutContent({
     children,
 }: {
     children: React.ReactNode;
@@ -47,7 +48,6 @@ export default function SettingsLayout({
     const isCoursePage = !!courseId;
 
     // Determine active top-level tab
-    // If we are in a course sub-route, the "courses" tab is effectively active (as parent)
     const currentTab = searchParams.get("tab") || (pathname.includes("/courses") ? "courses" : "general");
 
     return (
@@ -78,7 +78,6 @@ export default function SettingsLayout({
                         } else if (tab.id === "general") {
                             isActive = pathname === "/teacher/settings" && !searchParams.get("tab") && !isCoursePage;
                         } else if (tab.id === "courses") {
-                            // Active if we are on the main course list OR inside a specific course
                             isActive = pathname.includes("/teacher/settings/courses");
                         }
 
@@ -194,5 +193,17 @@ export default function SettingsLayout({
                 </div>
             </div>
         </div>
+    );
+}
+
+export default function SettingsLayout({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
+    return (
+        <Suspense fallback={<div className="p-6">Loading settings...</div>}>
+            <SettingsLayoutContent>{children}</SettingsLayoutContent>
+        </Suspense>
     );
 }

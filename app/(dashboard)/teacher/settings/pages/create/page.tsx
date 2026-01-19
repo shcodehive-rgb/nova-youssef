@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -21,13 +22,15 @@ import { createPage } from "@/actions/page";
 import Link from "next/link";
 import { Editor } from "@/components/editor";
 
+export const dynamic = "force-dynamic";
+
 const formSchema = z.object({
     title: z.string().min(1, "Title is required"),
     slug: z.string().min(1, "Slug is required").regex(/^[a-z0-9-]+$/, "Slug must be lowercase, numbers, and hyphens only"),
     content: z.string().min(1, "Content is required"),
 });
 
-const CreatePage = () => {
+const CreatePageContent = () => {
     const router = useRouter();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -149,6 +152,14 @@ const CreatePage = () => {
                 </Form>
             </div>
         </div>
+    );
+}
+
+const CreatePage = () => {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <CreatePageContent />
+        </Suspense>
     );
 }
 

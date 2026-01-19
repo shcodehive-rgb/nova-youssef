@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -19,13 +20,15 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import toast from "react-hot-toast";
 
+export const dynamic = "force-dynamic";
+
 const formSchema = z.object({
     title: z.string().min(1, {
         message: "Title is required",
     }),
 });
 
-export default function CreateCoursePage() {
+const CreateCourseContent = () => {
     const router = useRouter();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -40,8 +43,6 @@ export default function CreateCoursePage() {
         try {
             const response = await createCourse(values.title);
             router.push(`/teacher/settings/courses/${response.id}`);
-            // Assuming toast provider exists, if not this might just silently fail or warn. 
-            // Safe to include or can remove if no request. Adding simple alert fallback logic if standard approach fails.
         } catch {
             alert("Something went wrong");
         }
@@ -93,5 +94,13 @@ export default function CreateCoursePage() {
                 </Form>
             </div>
         </div>
+    );
+}
+
+export default function CreateCoursePage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <CreateCourseContent />
+        </Suspense>
     );
 }

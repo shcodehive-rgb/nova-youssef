@@ -41,7 +41,6 @@ export default async function SettingsPage({
         where: { userId: userId }
     });
 
-    // ✅ Fix: Explicitly handle the array type
     const pricingPlans = activeTab === "pricing"
         ? await db.pricingPlan.findMany({
             where: { userId: userId },
