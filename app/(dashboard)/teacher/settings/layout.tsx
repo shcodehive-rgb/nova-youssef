@@ -20,6 +20,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { usePathname, useParams, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { SettingsMobileSidebar } from "./_components/settings-mobile-sidebar";
 
 // Define base settings tabs
 const settingsTabs = [
@@ -153,38 +154,10 @@ function SettingsLayoutContent({
                     })}
                 </div>
 
-                {/* MOBILE TABS (Simplified: just show top level) */}
-                <div className="md:hidden border-b bg-white dark:bg-black sticky top-0 z-10 overflow-x-auto no-scrollbar">
-                    <div className="flex w-max px-4">
-                        {settingsTabs.map((tab) => {
-                            const Icon = tab.icon;
-                            let isActive = false;
-                            if (tab.href.includes("?tab=")) {
-                                const tabValue = tab.href.split("?tab=")[1];
-                                isActive = currentTab === tabValue;
-                            } else if (tab.id === "general") {
-                                isActive = pathname === "/teacher/settings" && !searchParams.get("tab");
-                            } else if (tab.id === "courses") {
-                                isActive = pathname.includes("/teacher/settings/courses");
-                            }
-
-                            return (
-                                <Link
-                                    key={tab.id}
-                                    href={tab.href}
-                                    className={cn(
-                                        "flex items-center gap-x-2 px-4 py-4 text-sm font-medium border-b-2 transition-colors whitespace-nowrap",
-                                        isActive
-                                            ? "border-primary text-primary"
-                                            : "border-transparent text-slate-500 hover:text-slate-700"
-                                    )}
-                                >
-                                    <Icon className="w-4 h-4" />
-                                    {tab.label}
-                                </Link>
-                            );
-                        })}
-                    </div>
+                {/* MOBILE NAVBAR with Menu Trigger */}
+                <div className="md:hidden border-b bg-white dark:bg-black sticky top-0 z-10 h-14 flex items-center px-4">
+                    <SettingsMobileSidebar />
+                    <h2 className="text-lg font-semibold ml-2">Paramètres</h2>
                 </div>
 
                 {/* CONTENT AREA */}

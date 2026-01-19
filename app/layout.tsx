@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 
 import Navbar from "@/components/Navbar";
@@ -13,6 +13,10 @@ import "./globals.css";
 import { db } from "@/lib/db";
 
 const inter = Inter({ subsets: ["latin"] });
+const playfair = Playfair_Display({
+    subsets: ["latin"],
+    variable: "--font-serif",
+});
 
 export const metadata: Metadata = {
     title: "Nova Academy - Excellence in Math & Physics",
@@ -49,7 +53,7 @@ export default async function RootLayout({
     return (
         <ClerkProvider>
             <html lang="en">
-                <body className={cn("min-h-screen bg-background font-sans antialiased", inter.className)}>
+                <body className={cn("min-h-screen bg-background font-sans antialiased", inter.className, playfair.variable)}>
                     <ConfettiProvider />
                     <ToastProvider />
                     <ModalProvider />
