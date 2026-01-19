@@ -32,7 +32,7 @@ const formSchema = z.object({
     slug: z.string().min(1),
     content: z.string().optional(),
     coverImageUrl: z.string().optional(),
-    isPublished: z.boolean().default(false),
+    isPublished: z.boolean(),
 });
 
 interface PostFormProps {
@@ -50,7 +50,7 @@ export const PostForm = ({ initialData }: PostFormProps) => {
             slug: initialData.slug,
             content: initialData.content || "",
             coverImageUrl: initialData.coverImageUrl || "",
-            isPublished: initialData.isPublished
+            isPublished: initialData.isPublished || false
         }
     });
 
@@ -158,7 +158,6 @@ export const PostForm = ({ initialData }: PostFormProps) => {
                                         <FormControl>
                                             <FileUpload
                                                 endpoint="courseImage"
-                                                value={field.value}
                                                 onChange={(url) => {
                                                     if (url) {
                                                         field.onChange(url);

@@ -32,12 +32,12 @@ import { ConfirmModal } from "@/components/modals/confirm-modal";
 const formSchema = z.object({
     title: z.string().min(1, { message: "Title is required" }),
     content: z.string().optional(),
-    coverImage: z.string().optional(),
+    coverImageUrl: z.string().optional(),
     slug: z.string().min(1, { message: "Slug is required" }),
     metaTitle: z.string().optional(),
     metaDescription: z.string().optional(),
     keywords: z.string().optional(),
-    isPublished: z.boolean().default(false),
+    isPublished: z.boolean(),
 });
 
 interface BlogPostFormProps {
@@ -54,12 +54,12 @@ export const BlogPostForm = ({ initialData }: BlogPostFormProps) => {
         defaultValues: {
             title: initialData.title,
             content: initialData.content || "",
-            coverImage: initialData.coverImage || "",
+            coverImageUrl: initialData.coverImageUrl || "",
             slug: initialData.slug,
             metaTitle: initialData.metaTitle || "",
             metaDescription: initialData.metaDescription || "",
             keywords: initialData.keywords || "",
-            isPublished: initialData.isPublished,
+            isPublished: initialData.isPublished || false,
         }
     });
 
@@ -196,10 +196,10 @@ export const BlogPostForm = ({ initialData }: BlogPostFormProps) => {
                             {/* Cover Image */}
                             <FormField
                                 control={form.control}
-                                name="coverImage"
+                                name="coverImageUrl"
                                 render={({ field }) => (
                                     <FormItem className="rounded-lg border p-4 bg-white shadow-sm">
-                                        <FormLabel className="font-semibold">Cover Image</FormLabel>
+                                        <FormLabel className="font-semibold">Image de couverture</FormLabel>
                                         <FormDescription>Used for social sharing and blog list.</FormDescription>
                                         <FormControl>
                                             {field.value ? (

@@ -63,11 +63,6 @@ export const CategoryForm = ({
         }
     }
 
-    const { options: categoryOptions, setOptions } = useState(options);
-    // Wait, options prop is static. We need to handle updates.
-    // Actually, router.refresh() will re-fetch the page which re-fetches options.
-    // But for instant feedback on "Create", we might want to manually insert it?
-    // Let's rely on router.refresh() for now or simple optimistic update if needed.
 
     // We need to import the createCategory action.
 

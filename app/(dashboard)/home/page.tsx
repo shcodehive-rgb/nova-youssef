@@ -17,7 +17,7 @@ export default async function SchoolHomePage() {
 
     // Fetch Site Config with safe fallback
     let siteConfig = null;
-    let pricingPlans = [];
+    let pricingPlans: any[] = [];
     try {
         siteConfig = await db.siteConfig.findFirst();
         pricingPlans = await db.pricingPlan.findMany({

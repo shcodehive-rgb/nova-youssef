@@ -41,12 +41,15 @@ export default function CreateBlogPage() {
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             setIsLoading(true);
-            const response = await createBlogPost(values.title);
-            if (response.id) {
+            const response = await createBlogPost({
+                title: values.title,
+                slug: values.title.toLowerCase().trim().replace(/[\s\W-]+/g, '-')
+            });
+            if (response.success && response.data) {
                 toast.success("Post created");
-                router.push(`/teacher/blog/${response.id}`);
+                router.push(`/teacher/blog/${response.data.id}`);
             } else {
-                toast.error("Something went wrong");
+                toast.error(response.error || "Something went wrong");
             }
         } catch {
             toast.error("Something went wrong");

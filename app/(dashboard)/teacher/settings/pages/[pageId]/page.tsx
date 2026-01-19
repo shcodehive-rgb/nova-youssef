@@ -6,13 +6,14 @@ import { PageForm } from "./_components/page-form";
 const PageIdPage = async ({
     params
 }: {
-    params: { pageId: string }
+    params: Promise<{ pageId: string }>
 }) => {
+    const { pageId } = await params;
     const { userId } = await auth();
     if (!userId) return redirect("/");
 
     const page = await db.page.findUnique({
-        where: { id: params.pageId }
+        where: { id: pageId }
     });
 
     if (!page) return redirect("/teacher/settings/pages");

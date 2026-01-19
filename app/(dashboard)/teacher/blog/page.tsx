@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/table";
 
 export default async function BlogPage() {
-    const { userId } = auth();
+    const { userId } = await auth();
     if (!userId) {
         return redirect("/");
     }

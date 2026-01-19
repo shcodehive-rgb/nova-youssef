@@ -6,9 +6,10 @@ import { BlogPostForm } from "../_components/blog-post-form";
 export default async function BlogPostIdPage({
     params
 }: {
-    params: { postId: string }
+    params: Promise<{ postId: string }>
 }) {
-    const { userId } = auth();
+    const { postId } = await params;
+    const { userId } = await auth();
 
     if (!userId) {
         return redirect("/");
@@ -16,7 +17,7 @@ export default async function BlogPostIdPage({
 
     const blogPost = await db.blogPost.findUnique({
         where: {
-            id: params.postId,
+            id: postId,
             userId
         }
     });
