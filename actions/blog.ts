@@ -42,7 +42,7 @@ export const getPost = async (postId: string) => {
     }
 }
 
-export const createPost = async (values: { title: string; slug: string }) => {
+export const createBlogPost = async (values: { title: string; slug: string }) => {
     try {
         const { userId } = await auth();
         if (!userId) throw new Error("Unauthorized");
@@ -71,7 +71,7 @@ export const createPost = async (values: { title: string; slug: string }) => {
     }
 }
 
-export const updatePost = async (postId: string, values: Partial<BlogPost>) => {
+export const updateBlogPost = async (postId: string, values: Partial<BlogPost>) => {
     try {
         const { userId } = await auth();
         if (!userId) throw new Error("Unauthorized");
@@ -92,7 +92,7 @@ export const updatePost = async (postId: string, values: Partial<BlogPost>) => {
     }
 }
 
-export const deletePost = async (postId: string) => {
+export const deleteBlogPost = async (postId: string) => {
     try {
         const { userId } = await auth();
         if (!userId) throw new Error("Unauthorized");

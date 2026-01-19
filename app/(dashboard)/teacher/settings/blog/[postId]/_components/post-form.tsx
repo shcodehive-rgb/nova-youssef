@@ -23,7 +23,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Editor } from "@/components/editor";
 import { FileUpload } from "@/components/FileUpload";
-import { updatePost, deletePost } from "@/actions/blog";
+import { updateBlogPost, deleteBlogPost } from "@/actions/blog";
 import { Switch } from "@/components/ui/switch";
 import { ConfirmModal } from "@/components/modals/confirm-modal";
 
@@ -58,7 +58,7 @@ export const PostForm = ({ initialData }: PostFormProps) => {
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            const response = await updatePost(initialData.id, values);
+            const response = await updateBlogPost(initialData.id, values);
             if (response.success) {
                 toast.success("Article updated");
                 router.refresh();
@@ -73,7 +73,7 @@ export const PostForm = ({ initialData }: PostFormProps) => {
     const onDelete = async () => {
         try {
             setIsDeleting(true);
-            const response = await deletePost(initialData.id);
+            const response = await deleteBlogPost(initialData.id);
             if (response.success) {
                 toast.success("Article deleted");
                 router.refresh();

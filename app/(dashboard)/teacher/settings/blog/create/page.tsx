@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { createPost } from "@/actions/blog";
+import { createBlogPost } from "@/actions/blog";
 import { Editor } from "@/components/editor";
 import { FileUpload } from "@/components/FileUpload";
 
@@ -42,7 +42,7 @@ const CreatePostPage = () => {
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            const response = await createPost(values);
+            const response = await createBlogPost(values);
 
             if (response.success && response.data) {
                 toast.success("Post created");
