@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface ShowcaseItemProps {
     headline: string;
@@ -11,9 +12,11 @@ interface ShowcaseItemProps {
     imageUrl: string;
     imageAlt: string;
     imagePosition: "left" | "right";
+    link: string;
+    linkText: string;
 }
 
-const ShowcaseItem = ({ headline, text, imageUrl, imageAlt, imagePosition }: ShowcaseItemProps) => {
+const ShowcaseItem = ({ headline, text, imageUrl, imageAlt, imagePosition, link, linkText }: ShowcaseItemProps) => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: false, amount: 0.3, margin: "-100px" });
 
@@ -51,12 +54,22 @@ const ShowcaseItem = ({ headline, text, imageUrl, imageAlt, imagePosition }: Sho
                     animate={isInView ? "visible" : "hidden"}
                     variants={imageVariants}
                 >
-                    <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-video">
-                        <img
-                            src={imageUrl}
-                            alt={imageAlt}
-                            className="w-full h-full object-cover"
-                        />
+                    <div className="relative">
+                        {imageUrl.startsWith('/') ? (
+                            <Image
+                                src={imageUrl}
+                                alt={imageAlt}
+                                width={1200}
+                                height={800}
+                                className="w-full h-auto rounded-xl shadow-2xl border border-gray-100"
+                            />
+                        ) : (
+                            <img
+                                src={imageUrl}
+                                alt={imageAlt}
+                                className="w-full h-auto rounded-xl shadow-2xl border border-gray-100"
+                            />
+                        )}
                     </div>
                 </motion.div>
 
@@ -70,9 +83,17 @@ const ShowcaseItem = ({ headline, text, imageUrl, imageAlt, imagePosition }: Sho
                     <h2 className="text-4xl md:text-5xl font-serif font-bold text-slate-900 mb-6 leading-tight">
                         {headline}
                     </h2>
-                    <p className="text-xl text-slate-600 leading-relaxed">
+                    <p className="text-xl text-slate-600 leading-relaxed mb-6">
                         {text}
                     </p>
+
+                    {/* Call to Action Link */}
+                    <Link
+                        href={link}
+                        className="inline-flex items-center text-orange-600 hover:text-orange-700 font-semibold text-lg hover:underline transition-colors"
+                    >
+                        {linkText}
+                    </Link>
                 </motion.div>
             </div>
         </div>
@@ -81,32 +102,40 @@ const ShowcaseItem = ({ headline, text, imageUrl, imageAlt, imagePosition }: Sho
 
 const showcaseItems = [
     {
-        headline: "Votre site, votre image de marque.",
-        text: "Utilisez notre éditeur simple pour personnaliser votre page d'accueil. Changez les couleurs, ajoutez votre logo et présentez-vous à vos élèves.",
-        imageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
-        imageAlt: "Landing Page Builder Interface",
-        imagePosition: "left" as const
+        headline: "Votre Vitrine Professionnelle",
+        text: "Ne vous contentez plus d'un simple groupe WhatsApp. Offrez aux parents et élèves une interface moderne qui inspire confiance. Affichez vos résultats du Bac, présentez vos packs de prix et permettez aux élèves de vous contacter directement via un bouton WhatsApp intégré. C'est votre école, à votre image.",
+        imageUrl: "/feat-home.jpg",
+        imageAlt: "Page d'accueil professionnelle avec résultats et tarifs",
+        imagePosition: "left" as const,
+        link: "/features/vitrine",
+        linkText: "En savoir plus sur la personnalisation ➝"
     },
     {
-        headline: "Une expérience d'apprentissage fluide.",
-        text: "Vos élèves adorent apprendre sur notre lecteur vidéo moderne. Chapitres clairs, téléchargements PDF et suivi de progression automatique.",
-        imageUrl: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80",
-        imageAlt: "Video Player Interface",
-        imagePosition: "right" as const
+        headline: "Une Organisation Sans Faille",
+        text: "Fini le chaos des fichiers perdus dans les conversations. Vos cours sont désormais structurés logiquement : Matière > Module > Chapitre. Grâce aux filtres intelligents, vos élèves trouvent la bonne leçon et le bon exercice en moins de 2 secondes. Vous gagnez du temps, eux aussi.",
+        imageUrl: "/feat-catalog.jpg",
+        imageAlt: "Catalogue de cours organisé par matière et module",
+        imagePosition: "right" as const,
+        link: "/features/organization",
+        linkText: "Voir l'organisation ➝"
     },
     {
-        headline: "Partagez votre expertise gratuitement.",
-        text: "Écrivez des articles de blog pour attirer plus d'élèves via Google (SEO). Pas besoin d'un site WordPress séparé.",
-        imageUrl: "https://images.unsplash.com/photo-1499750310159-52f0f837ce62?auto=format&fit=crop&w=800&q=80",
-        imageAlt: "Blog Article Editor",
-        imagePosition: "left" as const
+        headline: "Monétisez en Toute Sécurité",
+        text: "Gardez le contrôle total sur votre contenu. Notre système de cadenas intelligent vous permet d'offrir le premier chapitre gratuitement pour convaincre, puis de verrouiller automatiquement la suite. Dès que l'élève paie (CIH/Wafacash), le contenu se débloque instantanément sans votre intervention.",
+        imageUrl: "/feat-player.jpg",
+        imageAlt: "Lecteur vidéo avec système de verrouillage",
+        imagePosition: "left" as const,
+        link: "/features/monetization",
+        linkText: "Découvrir la sécurité ➝"
     },
     {
-        headline: "Pilotez votre business en toute sérénité.",
-        text: "Connectez votre banque (CIH/Wafacash) et suivez vos revenus en temps réel depuis votre tableau de bord.",
-        imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
-        imageAlt: "Settings & Payments Dashboard",
-        imagePosition: "right" as const
+        headline: "Attirez des Élèves Gratuitement",
+        text: "Pourquoi payer de la publicité quand Google peut travailler pour vous ? Utilisez votre blog intégré pour publier des conseils et des résumés. Cela améliore votre référencement (SEO) et attire de nouveaux élèves qui cherchent des cours de soutien dans votre ville, le tout gratuitement.",
+        imageUrl: "/feat-blog.jpg",
+        imageAlt: "Interface de blog intégré pour le SEO",
+        imagePosition: "right" as const,
+        link: "/features/seo",
+        linkText: "Voir les outils marketing ➝"
     }
 ];
 
@@ -122,6 +151,8 @@ export const ShowcaseSection = () => {
                         imageUrl={item.imageUrl}
                         imageAlt={item.imageAlt}
                         imagePosition={item.imagePosition}
+                        link={item.link}
+                        linkText={item.linkText}
                     />
                 ))}
             </div>

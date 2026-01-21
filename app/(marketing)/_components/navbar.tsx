@@ -83,7 +83,7 @@ export const MarketingNavbar = () => {
                     </DropdownMenu>
 
                     {/* Tarifs Link */}
-                    <Link href="#tarifs" className="text-sm font-medium text-slate-700 hover:text-slate-900 transition-colors">
+                    <Link href="/tarifs" className="text-sm font-medium text-slate-700 hover:text-slate-900 transition-colors">
                         Tarifs
                     </Link>
                 </div>
@@ -96,11 +96,11 @@ export const MarketingNavbar = () => {
                                 Se connecter
                             </Button>
                         </SignInButton>
-                        <SignUpButton mode="modal">
+                        <Link href="/sign-up">
                             <Button className="bg-orange-600 hover:bg-orange-700 text-white font-medium px-6">
                                 Commencer gratuitement
                             </Button>
-                        </SignUpButton>
+                        </Link>
                     </SignedOut>
                     <SignedIn>
                         <Link href="/home">
@@ -163,7 +163,7 @@ export const MarketingNavbar = () => {
 
                                 {/* Mobile Tarifs */}
                                 <SheetClose asChild>
-                                    <Link href="#tarifs" className="font-medium text-slate-900 py-2">
+                                    <Link href="/tarifs" className="font-medium text-slate-900 py-2">
                                         Tarifs
                                     </Link>
                                 </SheetClose>
@@ -176,11 +176,11 @@ export const MarketingNavbar = () => {
                                                 Se connecter
                                             </Button>
                                         </SignInButton>
-                                        <SignUpButton mode="modal">
+                                        <Link href="/sign-up">
                                             <Button className="w-full bg-orange-600 hover:bg-orange-700 text-white">
                                                 Commencer gratuitement
                                             </Button>
-                                        </SignUpButton>
+                                        </Link>
                                     </SignedOut>
                                     <SignedIn>
                                         <SheetClose asChild>

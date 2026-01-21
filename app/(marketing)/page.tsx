@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
-import { MarketingFooter } from "@/components/marketing-footer";
+
 import { HeroCarousel } from "./_components/hero-carousel";
 import { FeaturesSection } from "./_components/features-section";
 import { ShowcaseSection } from "./_components/showcase-section";
@@ -12,6 +12,7 @@ import { StatsSection } from "./_components/stats-section";
 import { NewsletterSection } from "./_components/newsletter-section";
 import { FAQSection } from "./_components/faq-section";
 
+// Main Marketing Page Component
 export default async function MarketingPage() {
     // Redirect logged-in users to dashboard
     const { userId } = await auth();
@@ -89,8 +90,7 @@ export default async function MarketingPage() {
             {/* FAQ Section */}
             <FAQSection />
 
-            {/* Footer */}
-            <MarketingFooter />
+
         </div>
     );
 }

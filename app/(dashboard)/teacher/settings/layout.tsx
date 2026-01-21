@@ -14,11 +14,13 @@ import {
     Users,
     ChevronDown,
     CreditCard,
-    Trophy
+    Trophy,
+    ShieldAlert
 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { usePathname, useParams, useSearchParams } from "next/navigation";
+import { useAuth } from "@clerk/nextjs";
 import { cn } from "@/lib/utils";
 import { SettingsMobileSidebar } from "./_components/settings-mobile-sidebar";
 
@@ -29,6 +31,7 @@ const settingsTabs = [
     { id: "footer", label: "Pied de page", icon: LayoutTemplate, href: "/teacher/settings?tab=footer" },
     { id: "blog", label: "Blog", icon: Newspaper, href: "/teacher/settings?tab=blog" },
     { id: "courses", label: "Affichage Cours", icon: MonitorPlay, href: "/teacher/settings/courses" },
+    { id: "students", label: "Accès Étudiants", icon: Users, href: "/teacher/settings?tab=students" },
     { id: "social", label: "Réseaux Sociaux", icon: Share2, href: "/teacher/settings?tab=social" },
     { id: "pricing", label: "Tarifs / Packs", icon: CreditCard, href: "/teacher/settings?tab=pricing" },
     { id: "results", label: "Résultats Élèves", icon: Trophy, href: "/teacher/settings?tab=results" },
@@ -40,9 +43,19 @@ function SettingsLayoutContent({
 }: {
     children: React.ReactNode;
 }) {
+    const { userId } = useAuth();
     const pathname = usePathname();
     const params = useParams();
     const searchParams = useSearchParams();
+
+    // Check if Super Admin
+    const isSuperAdmin = userId === process.env.NEXT_PUBLIC_TEACHER_ID;
+
+    // Extend tabs if admin
+    const currentTabs = [...settingsTabs];
+    if (isSuperAdmin) {
+        currentTabs.push({ id: "admin", label: "Admin (Roles)", icon: ShieldAlert, href: "/teacher/settings?tab=admin" });
+    }
 
     // Check if we are in a course context
     const courseId = params.courseId as string;
@@ -68,7 +81,7 @@ function SettingsLayoutContent({
 
                     <h2 className="text-lg font-bold mb-4 px-3">Paramètres</h2>
 
-                    {settingsTabs.map((tab) => {
+                    {currentTabs.map((tab) => {
                         const Icon = tab.icon;
 
                         // Check if this tab is active

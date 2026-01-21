@@ -10,6 +10,7 @@ export default function MarketingLayout({
         <main>
             <MarketingNavbar />
             {children}
+            <MarketingFooter />
         </main>
     );
 }

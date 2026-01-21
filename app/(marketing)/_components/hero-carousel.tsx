@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 interface HeroCarouselProps {
     autoPlayInterval?: number; // in milliseconds
@@ -11,25 +12,24 @@ interface HeroCarouselProps {
 export const HeroCarousel = ({ autoPlayInterval = 4000 }: HeroCarouselProps) => {
     const [currentSlide, setCurrentSlide] = useState(0);
 
-    // Placeholder slides - will be replaced with actual images
     const slides = [
         {
             id: 1,
-            title: "Créez vos cours",
-            description: "Interface intuitive pour créer du contenu",
-            bgColor: "from-orange-100 to-orange-50"
+            title: "Lecteur Vidéo Sécurisé",
+            subtitle: "Une expérience d'apprentissage fluide et sans distractions.",
+            imageUrl: "/demo-player.jpeg"
         },
         {
             id: 2,
-            title: "Gérez vos élèves",
-            description: "Tableau de bord complet",
-            bgColor: "from-blue-100 to-blue-50"
+            title: "Organisation Professionnelle",
+            subtitle: "Vos cours présentés dans un catalogue clair et moderne.",
+            imageUrl: "/demo-catalog.jpg"
         },
         {
             id: 3,
-            title: "Encaissez facilement",
-            description: "Paiements CIH & Wafacash intégrés",
-            bgColor: "from-purple-100 to-purple-50"
+            title: "Personnalisation Totale",
+            subtitle: "Modifiez le logo et les couleurs pour qu'ils vous ressemblent.",
+            imageUrl: "/demo-settings.jpg"
         }
     ];
 
@@ -59,7 +59,7 @@ export const HeroCarousel = ({ autoPlayInterval = 4000 }: HeroCarouselProps) => 
     return (
         <div className="relative group">
             {/* Carousel Container */}
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-slate-100">
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-200 bg-white">
                 {/* Slides */}
                 <div className="relative aspect-video">
                     {slides.map((slide, index) => (
@@ -70,21 +70,14 @@ export const HeroCarousel = ({ autoPlayInterval = 4000 }: HeroCarouselProps) => 
                                 index === currentSlide ? "opacity-100" : "opacity-0"
                             )}
                         >
-                            <div className={cn(
-                                "w-full h-full bg-gradient-to-br rounded-lg flex items-center justify-center p-8",
-                                slide.bgColor
-                            )}>
-                                <div className="text-center">
-                                    <h3 className="text-2xl md:text-3xl font-bold text-slate-800 mb-2">
-                                        {slide.title}
-                                    </h3>
-                                    <p className="text-slate-600 text-sm md:text-base">
-                                        {slide.description}
-                                    </p>
-                                    <p className="text-xs text-slate-400 mt-4">
-                                        Image placeholder - Slide {slide.id}
-                                    </p>
-                                </div>
+                            <div className="relative w-full h-full bg-gray-50">
+                                <Image
+                                    src={slide.imageUrl}
+                                    alt={slide.title}
+                                    fill
+                                    className="object-contain"
+                                    priority={index === 0}
+                                />
                             </div>
                         </div>
                     ))}

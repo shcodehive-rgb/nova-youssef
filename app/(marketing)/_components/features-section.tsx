@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, PlayCircle, FileText, Settings, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -8,26 +8,22 @@ const features = [
     {
         title: "Vidéos Gratuites & Payantes",
         description: "Attirez les élèves avec des chapitres gratuits, et verrouillez le reste pour les abonnés payants.",
-        imageUrl: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80",
-        imageAlt: "Online course video player interface"
+        icon: PlayCircle
     },
     {
         title: "Fichiers & Exercices PDF",
         description: "Ajoutez des résumés, des séries d'exercices et des corrections téléchargeables sous chaque leçon.",
-        imageUrl: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=800&q=80",
-        imageAlt: "Stack of books and study notes"
+        icon: FileText
     },
     {
         title: "Contrôle Total du Site",
         description: "Gérez votre page d'accueil, écrivez vos articles de blog et affichez vos réseaux sociaux.",
-        imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
-        imageAlt: "Professional dashboard with charts and data"
+        icon: Settings
     },
     {
         title: "Accès Instantané",
         description: "Dès que l'élève paie (CIH/Wafacash), les cours payants se débloquent automatiquement.",
-        imageUrl: "https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?auto=format&fit=crop&w=800&q=80",
-        imageAlt: "Electronic payment success"
+        icon: CreditCard
     }
 ];
 
@@ -48,22 +44,21 @@ export const FeaturesSection = () => {
                 {/* Features Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {features.map((feature, index) => {
+                        const Icon = feature.icon;
                         return (
                             <div
                                 key={index}
-                                className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-slate-100"
+                                className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-slate-100 p-6"
                             >
-                                {/* Feature Image */}
-                                <div className="h-48 w-full overflow-hidden">
-                                    <img
-                                        src={feature.imageUrl}
-                                        alt={feature.imageAlt}
-                                        className="h-full w-full object-cover rounded-t-2xl group-hover:scale-105 transition-transform duration-300"
-                                    />
+                                {/* Icon Header */}
+                                <div className="mb-6">
+                                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-orange-100 text-orange-600 group-hover:bg-orange-600 group-hover:text-white transition-colors duration-300">
+                                        <Icon className="h-8 w-8" />
+                                    </div>
                                 </div>
 
                                 {/* Content */}
-                                <div className="p-6">
+                                <div>
                                     <h3 className="text-xl font-bold text-slate-900 mb-3">
                                         {feature.title}
                                     </h3>

@@ -13,6 +13,8 @@ import { GeneralForm } from "./_components/general-form";
 import { FooterForm } from "./_components/footer-form";
 import { PricingForm } from "./_components/pricing-form";
 import { ResultsForm } from "./_components/results-form";
+import { StudentsForm } from "./_components/students-form";
+import { AdminForm } from "./_components/admin-form";
 import { BlogList } from "./_components/blog-list";
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
@@ -37,9 +39,26 @@ export default async function SettingsPage({
     }
 
     // Fetch data for tabs
+    const isSuperAdmin = userId === process.env.NEXT_PUBLIC_TEACHER_ID;
+
     const siteConfig = await db.siteConfig.findUnique({
         where: { userId: userId }
     });
+
+    const courses = activeTab === "students"
+        ? await db.course.findMany({
+            where: { userId: userId },
+            orderBy: { createdAt: "desc" },
+            select: { id: true, title: true } // Fetch minimal data
+        })
+        : [];
+
+    const whitelist = activeTab === "students"
+        ? await db.courseWhitelist.findMany({
+            include: { course: true },
+            orderBy: { createdAt: "desc" }
+        })
+        : [];
 
     const pricingPlans = activeTab === "pricing"
         ? await db.pricingPlan.findMany({
@@ -55,6 +74,8 @@ export default async function SettingsPage({
             case "footer": return "Pied de page";
             case "blog": return "Blog";
             case "courses": return "Affichage Cours";
+            case "students": return "Accès Étudiants";
+            case "admin": return "Admin (Roles)";
             case "social": return "Réseaux Sociaux";
             case "pricing": return "Plans & Tarifs";
             case "results": return "Résultats Élèves";
@@ -69,6 +90,8 @@ export default async function SettingsPage({
             case "footer": return "Liens, Copyright";
             case "blog": return "Articles, Paramètres";
             case "courses": return "Grille, Filtres";
+            case "students": return "Accorder l'accès manuel aux cours";
+            case "admin": return "Gérer les permissions (Promouvoir Enseignants)";
             case "social": return "Liens profils";
             case "pricing": return "Gérez vos offres et tarifs";
             case "results": return "Captures d'écran, Témoignages";
@@ -96,6 +119,8 @@ export default async function SettingsPage({
                         {activeTab === "footer" && <FooterForm />}
                         {activeTab === "pricing" && <PricingForm initialData={pricingPlans} />}
                         {activeTab === "results" && siteConfig && <ResultsForm initialData={siteConfig} />}
+                        {activeTab === "students" && <StudentsForm courses={courses as any} whitelist={whitelist as any} />}
+                        {activeTab === "admin" && isSuperAdmin && <AdminForm />}
                         {activeTab === "blog" && <BlogList />}
 
                         {activeTab === "courses" && (

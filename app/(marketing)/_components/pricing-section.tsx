@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Check, X } from "lucide-react";
+import { Check, X, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -161,6 +161,16 @@ export const PricingSection = () => {
                             </Card>
                         </motion.div>
                     ))}
+                </div>
+
+                {/* Link to Detailed Comparison */}
+                <div className="text-center mt-16">
+                    <Link href="/tarifs">
+                        <Button variant="outline" className="gap-2 border-slate-300 text-slate-700 hover:text-slate-900 hover:border-slate-400">
+                            Tout Comparer
+                            <ArrowRight className="h-4 w-4" />
+                        </Button>
+                    </Link>
                 </div>
             </div>
         </section>

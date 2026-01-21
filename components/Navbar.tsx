@@ -3,9 +3,9 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from "next/navigation";
-import { User } from 'lucide-react';
-import { SignInButton, SignedIn, SignedOut } from "@clerk/nextjs";
+import { usePathname, useRouter } from "next/navigation";
+import { User, LogOut } from 'lucide-react';
+import { SignInButton, SignedIn, SignedOut, useAuth, useClerk, useUser } from "@clerk/nextjs";
 import { UserMenu } from "@/components/user-menu";
 
 import { Button } from './ui/button';
@@ -23,7 +23,14 @@ interface NavbarProps {
 
 const Navbar = ({ config }: NavbarProps) => {
     const pathname = usePathname();
+    const router = useRouter();
+    const { userId } = useAuth();
+    const { user } = useUser();
+    const { signOut } = useClerk();
     const isMarketingPage = pathname === "/" || pathname?.startsWith("/inscription");
+
+    // Check if user is the Admin/Teacher via Role OR Legacy ID
+    const isTeacher = (user?.publicMetadata?.role === "teacher") || (userId === process.env.NEXT_PUBLIC_TEACHER_ID);
 
     if (isMarketingPage) {
         return null;
@@ -59,35 +66,47 @@ const Navbar = ({ config }: NavbarProps) => {
 
                 {/* Right Actions */}
                 <div className="flex items-center gap-6">
-                    <div className="hidden md:flex items-center gap-6">
-                        <Link
-                            href="/home"
-                            className="text-sm font-medium text-gray-600 hover:text-primary transition-colors"
-                        >
-                            Accueil
+                    <Link href="/" className="text-sm font-medium text-gray-600 hover:text-primary transition-colors">
+                        Accueil
+                    </Link>
+                    <Link href="/search" className="text-sm font-medium text-gray-600 hover:text-primary transition-colors">
+                        Cours
+                    </Link>
+                    <Link href="/blog" className="text-sm font-medium text-gray-600 hover:text-primary transition-colors">
+                        Blog
+                    </Link>
+                    {isTeacher && (
+                        <Link href="/teacher/courses">
+                            <Button variant="ghost" size="sm">
+                                Tableau de bord
+                            </Button>
                         </Link>
-                        <Link
-                            href="/search"
-                            className="text-sm font-medium text-gray-600 hover:text-primary transition-colors"
-                        >
-                            Cours
-                        </Link>
-                        <Link
-                            href="/blog"
-                            className="text-sm font-medium text-gray-600 hover:text-primary transition-colors"
-                        >
-                            Blog
-                        </Link>
-                    </div>
-
-                    <SignedOut>
-                        <UserMenu isGuest />
-                    </SignedOut>
-
-                    <SignedIn>
-                        <UserMenu />
-                    </SignedIn>
+                    )}
                 </div>
+
+                <SignedIn>
+                    {isTeacher ? (
+                        <UserMenu />
+                    ) : (
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => signOut(() => router.push("/"))}
+                            className="text-slate-600 hover:text-slate-900"
+                        >
+                            <LogOut className="h-4 w-4 mr-2" />
+                            Se déconnecter
+                        </Button>
+                    )}
+                </SignedIn>
+
+                <SignedOut>
+                    <SignInButton mode="modal">
+                        <Button variant="ghost" className="text-sm font-medium">
+                            Se connecter
+                        </Button>
+                    </SignInButton>
+                </SignedOut>
             </div>
         </nav>
     );
